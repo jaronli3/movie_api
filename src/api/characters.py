@@ -38,11 +38,12 @@ def get_character(id: str):
               json["gender"] = null
             else:
               json["gender"] = character["gender"]
-            found = True
-            break
+            # found = True
+            # break
+            return json
         
     # if found == False:
-    #   json = None
+      # json = None
 
     if json is None:
         raise HTTPException(status_code=404, detail="movie not found.")
