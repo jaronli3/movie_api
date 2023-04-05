@@ -26,34 +26,16 @@ def get_character(id: str):
     * `number_of_lines_together`: The number of lines the character has with the
       originally queried character.
     """
-    # json = None
-    # found = False
     for character in db.characters:
         if character["character_id"] == id:
-            json = {}
-            json["character_id"] = id
-            json["name"] = character["name"]
-            json["movie"] = character["movie_id"]
-            if character["gender"] == "":
-              json["gender"] = null
-            else:
-              json["gender"] = character["gender"]
-            # found = True
-            # break
-            return character
-        
-    # if found == False:
-      # json = None
+            print("character found")
+
+    json = None
 
     if json is None:
         raise HTTPException(status_code=404, detail="movie not found.")
-    
-    # for movie in db.movies:
-    #   if movie["id"] == json["movie"]:
-    #     json["movie"] = movie["title"]   
-    
-    return json
 
+    return json
 
 class character_sort_options(str, Enum):
     character = "character"
