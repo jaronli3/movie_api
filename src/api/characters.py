@@ -39,7 +39,7 @@ def get_character(id: str):
               json["gender"] = null
             else:
               json["gender"] = character["gender"]
-            # print(json)
+            print(json)
             return json
 
 
