@@ -28,6 +28,7 @@ def get_character(id: str):
     """
 
     json = None
+
     for character in db.characters:
         if character["character_id"] == id:
             json = {}
@@ -38,7 +39,7 @@ def get_character(id: str):
               json["gender"] = null
             else:
               json["gender"] = character["gender"]
-            break
+            return json
 
 
     if json is None:
