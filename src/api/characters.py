@@ -35,10 +35,10 @@ def get_character(id: str):
             json["character_id"] = int(id)
             json["character"] = character["name"]
             json["movie"] = ""
-            if character["gender"] != "M" or character["gender"] != "F":
-              json["gender"] = null
-            else:
-              json["gender"] = character["gender"]
+            # if character["gender"] != "M" or character["gender"] != "F":
+            #   json["gender"] = null
+            # else:
+            #   json["gender"] = character["gender"]
             print(json)
             return json
 
