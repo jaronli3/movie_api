@@ -40,7 +40,7 @@ def get_character(id: str):
               json["gender"] = character["gender"]
             # found = True
             # break
-            return json
+            return character
         
     # if found == False:
       # json = None
