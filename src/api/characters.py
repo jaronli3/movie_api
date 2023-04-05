@@ -28,11 +28,7 @@ def get_character(id: str):
     """
     for character in db.characters:
         if character["character_id"] == id:
-            json = {}
-            json["character_id"] = id
-            json["character"] = character["character"]
-            json["movie"] = character["movie"]
-            json["gender"] = character["gender"]
+            print("character found")
 
     json = None
 
