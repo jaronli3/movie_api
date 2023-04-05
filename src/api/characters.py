@@ -27,7 +27,7 @@ def get_character(id: str):
       originally queried character.
     """
     # json = None
-
+    found = False
     for character in db.characters:
         if character["character_id"] == id:
             print("character found")
@@ -39,10 +39,12 @@ def get_character(id: str):
               json["gender"] = null
             else:
               json["gender"] = character["gender"]
+            found = true
             break
-        else:
-          json = None
-
+        
+    if found is False:
+      json = None
+      
     if json is None:
         raise HTTPException(status_code=404, detail="movie not found.")
     
