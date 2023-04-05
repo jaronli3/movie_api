@@ -32,13 +32,13 @@ def get_character(id: str):
     for character in db.characters:
         if character["character_id"] == id:
             json = {}
-            json["character_id"] = id
+            json["character_id"] = int(id)
             json["character"] = character["name"]
-            json["movie"] = ""
-            if character["gender"] != "M" or character["gender"] != "F":
-              json["gender"] = null
-            else:
-              json["gender"] = character["gender"]
+            # json["movie"] = ""
+            # if character["gender"] != "M" or character["gender"] != "F":
+            #   json["gender"] = null
+            # else:
+            #   json["gender"] = character["gender"]
             return json
 
 
