@@ -29,6 +29,8 @@ def get_character(id: str):
     for character in db.characters:
         if character["character_id"] == id:
             print("character found")
+            json = character
+            return json
 
     json = None
 

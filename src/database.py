@@ -4,7 +4,7 @@ import csv
 # an example of reading the CSV files where you will get the data to complete
 # the assignment.
 
-print("reading movies")
+# print("reading movies")
 
 with open("movies.csv", mode="r", encoding="utf8") as csv_file:
     movies = [
