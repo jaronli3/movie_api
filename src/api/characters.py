@@ -28,14 +28,14 @@ def get_character(id: str):
     """
     for character in db.characters:
         if character["character_id"] == id:
-            return character
+            print("character found")
 
-    # json = None
+    json = None
 
-    # if json is None:
-    #     raise HTTPException(status_code=404, detail="movie not found.")
+    if json is None:
+        raise HTTPException(status_code=404, detail="movie not found.")
     
-    # return json
+    return json
 
 
 class character_sort_options(str, Enum):
