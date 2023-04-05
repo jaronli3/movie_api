@@ -30,7 +30,6 @@ def get_character(id: str):
     found = False
     for character in db.characters:
         if character["character_id"] == id:
-            print("character found")
             json = {}
             json["character_id"] = id
             json["name"] = character["name"]
@@ -39,18 +38,18 @@ def get_character(id: str):
               json["gender"] = null
             else:
               json["gender"] = character["gender"]
-            found = true
+            found = True
             break
         
-    if found is False:
+    if found == False:
       json = None
-      
+
     if json is None:
         raise HTTPException(status_code=404, detail="movie not found.")
     
-    for movie in db.movies:
-      if movie["id"] == json["movie"]:
-        json["movie"] = movie["title"]   
+    # for movie in db.movies:
+    #   if movie["id"] == json["movie"]:
+    #     json["movie"] = movie["title"]   
     
     return json
 
