@@ -28,13 +28,17 @@ def get_character(id: str):
     """
     for character in db.characters:
         if character["character_id"] == id:
-            print("character found")
+            json = {}
+            json["character_id"] = id
+            json["character"] = character["character"]
+            json["movie"] = character["movie"]
+            json["gender"] = character["gender"]
 
     json = None
 
     if json is None:
         raise HTTPException(status_code=404, detail="movie not found.")
-
+    
     return json
 
 
