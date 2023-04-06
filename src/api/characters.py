@@ -41,7 +41,12 @@ def get_character(id: str):
               json["gender"] = character["gender"]
             break
 
-
+    
+    for movie in db.movies:
+      if movie["movie_id"] == json["movie"]:
+        json["movie"] = movie["title"]
+        break
+    
     if json is None:
         raise HTTPException(status_code=404, detail="movie not found.")
 
