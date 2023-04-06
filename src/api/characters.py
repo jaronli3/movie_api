@@ -40,7 +40,7 @@ def get_character(id: str):
             # else:
             #   json["gender"] = character["gender"]
             # return json
-             break
+            break
 
 
     if json is None:
