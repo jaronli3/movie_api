@@ -71,8 +71,8 @@ def get_character(id: str):
             top_convo_dict[curr_char] = top_convo_dict[curr_char] + 1
       
 
-      sorted_dict = sorted(top_convo_dict.items(), key=lambda x:x[1])
-      lst = []
+      # sorted_dict = sorted(top_convo_dict.items(), key=lambda x:x[1])
+      # lst = []
 
       # for convo in sorted_dict:
       #   for char in db.characters:
