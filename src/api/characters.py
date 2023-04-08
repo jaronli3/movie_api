@@ -41,14 +41,57 @@ def get_character(id: str):
               json["gender"] = character["gender"]
             break
 
-    
+    if json is None:
+        raise HTTPException(status_code=404, detail="movie not found.")
+
     for movie in db.movies:
       if movie["movie_id"] == json["movie"]:
         json["movie"] = movie["title"]
         break
     
-    if json is None:
-        raise HTTPException(status_code=404, detail="movie not found.")
+    top_convo_dict = {}
+    char_found = False
+    
+    for conversation in db.conversations:
+      if conversation["character1_id"] == id:
+        char_found = True
+        current_convo_id = conversation["conversation_id"]
+        if conversation["character2_id"] not in top_convo_dict:
+          top_convo_dict["character2_id"] = 0
+        curr_char = conversation["character2_id"]
+      elif conversation["character2_id"] == id:
+        char_found = True
+        current_convo_id = conversation["conversation_id"]
+        if conversation["character1_id"] not in top_convo_dict:
+          top_convo_dict["character1_id"] = 0
+        curr_char = conversation["character1_id"]
+      if char_found == True:
+        for line in db.lines:
+          if line["conversation_id"] == current_convo_id:
+            top_convo_dict[curr_char] = top_convo_dict[curr_char] + 1
+      
+
+      sorted_dict = sorted(top_convo_dict.items(), key=lambda x:x[1])
+      lst = []
+
+      for convo in sorted_dict:
+        for char in db.characters:
+          if char["character_id"] == convo:
+            new_dict = {}
+            new_dict["character_id"] = int(id)
+            new_dict["character"] = character["name"]
+            if character["gender"] == "":
+              new_dict["gender"] = None
+            else:
+              new_dict["gender"] = character["gender"]
+            new_dict["number_of_lines_together"] = convo
+            lst.append(new_dict)
+            break
+      
+      json["top_conversations"] = lst
+          
+    # if json is None:
+    #     raise HTTPException(status_code=404, detail="movie not found.")
 
     return json
 
