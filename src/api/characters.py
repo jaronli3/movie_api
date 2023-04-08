@@ -51,7 +51,8 @@ def get_character(id: str):
     
     top_convo_dict = {}
     char_found = False
-    current_convo_id = 0
+    current_convo_id = None
+    curr_char = None
     
     for conversation in db.conversations:
       if conversation["character1_id"] == id:
@@ -66,7 +67,7 @@ def get_character(id: str):
         if conversation["character1_id"] not in top_convo_dict:
           top_convo_dict["character1_id"] = 0
         curr_char = conversation["character1_id"]
-      if char_found == True:
+      if char_found is True:
         for line in db.lines:
           if line["conversation_id"] == current_convo_id:
             top_convo_dict[curr_char] = top_convo_dict[curr_char] + 1
