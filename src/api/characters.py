@@ -72,11 +72,11 @@ def get_character(id: str):
           # lst1.append(curr_char)
       
       # json["lst"] = lst1
-      # json["ad"] = top_convo_dict
-      if char_found is True:
-        for line in db.lines:
-          if line["conversation_id"] == current_convo_id:
-            top_convo_dict[curr_char] = top_convo_dict[curr_char] + 1
+      json["ad"] = top_convo_dict
+      # if char_found is True:
+      #   for line in db.lines:
+      #     if line["conversation_id"] == current_convo_id:
+      #       top_convo_dict[curr_char] = top_convo_dict[curr_char] + 1
       
 
       # sorted_dict = sorted(top_convo_dict.items(), key=lambda x:x[1])
