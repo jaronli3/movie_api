@@ -58,20 +58,19 @@ def get_character(id: str):
       if conversation["character1_id"] == id:
         char_found = True
         current_convo_id = conversation["conversation_id"]
+        curr_char = conversation["character2_id"]
         if conversation["character2_id"] not in top_convo_dict:
           top_convo_dict["character2_id"] = 0
-        curr_char = conversation["character2_id"]
       elif conversation["character2_id"] == id:
         char_found = True
         current_convo_id = conversation["conversation_id"]
+        curr_char = conversation["character1_id"]
         if conversation["character1_id"] not in top_convo_dict:
           top_convo_dict["character1_id"] = 0
-        curr_char = conversation["character1_id"]
-      if char_found is True:
-        for line in db.lines:
-          if line["conversation_id"] == current_convo_id:
-            # top_convo_dict[curr_char] = top_convo_dict[curr_char] + 1
-            print("hello")
+      # if char_found is True:
+      for line in db.lines:
+        if line["conversation_id"] == current_convo_id:
+          top_convo_dict[curr_char] = top_convo_dict[curr_char] + 1
       
 
       # sorted_dict = sorted(top_convo_dict.items(), key=lambda x:x[1])
