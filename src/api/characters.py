@@ -86,7 +86,7 @@ def get_character(id: str):
     for x in sorted_top_convo_2:
       top_convo_3[x[0]] = x[1]
     # sorted_top_convo_2 = dict(sorted(top_convo_dict2.items(), key = lambda x:x[1], reverse = True))
-
+    json["top_convo"] = sorted_top_convo_2
     json["top_conversations"] = top_convo_3
 
 
