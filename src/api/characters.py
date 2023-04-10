@@ -83,7 +83,7 @@ def get_character(id: str):
 
     sorted_d = dict(sorted(top_convo_dict2.items(), key=operator.itemgetter(1),reverse=True))
 
-    json["top_conversations"] = top_convo_dict2
+    json["top_conversations"] = sorted_d
 
       # sorted_dict = sorted(top_convo_dict.items(), key=lambda x:x[1])
       # lst = []
