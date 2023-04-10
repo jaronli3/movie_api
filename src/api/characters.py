@@ -86,7 +86,21 @@ def get_character(id: str):
     # for x in sorted_top_convo_2:
     #   top[x[0]] = x[1]
 
-    json["top_conversations"] = top_convo_dict2
+    top_convo_lst = []
+    for character in db.characters:
+      for x in top_convo_dict:
+        if character["character_id"] == x:
+            new_dict = {}
+            new_dict["character_id"] = int(id)
+            new_dict["character"] = character["name"]
+            if character["gender"] == "":
+              new_dict["gender"] = None
+            else:
+              new_dict["gender"] = character["gender"]
+            new_dict["number_of_lines"] = top_convo_dict.get(x)
+            top_convo_lst.append(new_dict)
+
+    json["top_conversations"] = top_convo_lst
     
 
 
