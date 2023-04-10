@@ -83,7 +83,7 @@ def get_character(id: str):
             top_convo_dict2[top_convo_dict[conv]] = 0
           else:
             top_convo_dict2[top_convo_dict[conv]] += 1
-        break
+        
 
 
     json["yes"] = top_convo_dict2
