@@ -79,14 +79,8 @@ def get_character(id: str):
           else:
             top_convo_dict2[top_convo_dict[conv]] += 1
 
-    
-    # sorted_top_convo_2 = sorted(top_convo_dict2.items(), key=operator.itemgetter(1),reverse=True)
-    # top = {}
-
-    # for x in sorted_top_convo_2:
-    #   top[x[0]] = x[1]
-
     top_convo_lst = []
+    
     for character in db.characters:
       for x in top_convo_dict2:
         if character["character_id"] == x:
@@ -100,10 +94,8 @@ def get_character(id: str):
             new_dict["number_of_lines"] = top_convo_dict2.get(x)
             top_convo_lst.append(new_dict)
 
-    # sorted_list = sorted(top_convo_lst, key=operator.itemgetter('number_of_lines'), reverse= True)
     json["top_conversations"] = sorted(top_convo_lst, key=operator.itemgetter('number_of_lines'), reverse= True)
   
-
     return json
 
 class character_sort_options(str, Enum):
