@@ -97,10 +97,10 @@ def get_character(id: str):
               new_dict["gender"] = None
             else:
               new_dict["gender"] = character["gender"]
-            new_dict["number_of_lines"] = top_convo_dict.get(x)
+            new_dict["number_of_lines"] = top_convo_dict2.get(x)
             top_convo_lst.append(new_dict)
-            
-    json["adsf"] = top_convo_dict2
+
+    # json["adsf"] = top_convo_dict2
     json["top_conversations"] = top_convo_lst
     
 
