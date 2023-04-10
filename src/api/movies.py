@@ -29,7 +29,7 @@ def get_movie(movie_id: str):
         if movie["movie_id"] == movie_id:
             json = {}
             json["movie_id"] = int(movie_id)
-            json["title"] = movie["name"]
+            json["title"] = movie["title"]
             break
 
     if json is None:
