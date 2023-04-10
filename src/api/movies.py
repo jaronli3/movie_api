@@ -28,7 +28,7 @@ def get_movie(movie_id: str):
     for movie in db.movies:
         if movie["movie_id"] == movie_id:
             json = {}
-            json["movie_id"] = int(id)
+            json["movie_id"] = int(movie_id)
             json["title"] = movie["name"]
             break
 
