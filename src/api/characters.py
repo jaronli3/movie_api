@@ -50,6 +50,7 @@ def get_character(id: str):
         break
     
     top_convo_dict = {}
+    top_convo_dict2 = {}
     char_found = False
     current_convo_id = None
     curr_char = None
@@ -74,7 +75,18 @@ def get_character(id: str):
       
     # for line in db.lines:
     #   if line["conversation_id"] :
-    json["yes"] = top_convo_dict
+    
+    for conv in top_convo_dict:
+      for line in db.lines:
+        if line["conversation_id"] == conv:
+          if top_convo_dict[conv] not in top_convo_dict2:
+            top_convo_dict2[top_convo_dict[conv]] = 0
+          else:
+            top_convo_dict2[top_convo_dict[conv]] += 1
+        break
+
+
+    json["yes"] = top_convo_dict2
 
       # sorted_dict = sorted(top_convo_dict.items(), key=lambda x:x[1])
       # lst = []
