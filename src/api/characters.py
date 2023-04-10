@@ -80,7 +80,7 @@ def get_character(id: str):
       for line in db.lines:
         if line["conversation_id"] == conv:
           if top_convo_dict[conv] not in top_convo_dict2:
-            top_convo_dict2[top_convo_dict[conv]] = 0
+            top_convo_dict2[top_convo_dict[conv]] = 1
           else:
             top_convo_dict2[top_convo_dict[conv]] += 1
         
