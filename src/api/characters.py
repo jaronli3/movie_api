@@ -81,31 +81,11 @@ def get_character(id: str):
 
     top_convo_3 = {}
 
-    sorted_d = dict(sorted(top_convo_dict2.items(), key=operator.itemgetter(1),reverse=True))
+    sorted_top_convo_2 = dict(sorted(top_convo_dict2.items(), key=operator.itemgetter(1),reverse=True))
 
-    json["top_conversations"] = sorted_d
+    json["top_conversations"] = sorted_top_convo_2
 
-      # sorted_dict = sorted(top_convo_dict.items(), key=lambda x:x[1])
-      # lst = []
 
-      # for convo in sorted_dict:
-      #   for char in db.characters:
-      #     if char["character_id"] == convo:
-      #       new_dict = {}
-      #       new_dict["character_id"] = int(id)
-      #       new_dict["character"] = character["name"]
-      #       if character["gender"] == "":
-      #         new_dict["gender"] = None
-      #       else:
-      #         new_dict["gender"] = character["gender"]
-      #       new_dict["number_of_lines_together"] = convo
-      #       lst.append(new_dict)
-      #       break
-      
-      # json["top_conversations"] = lst
-          
-    # if json is None:
-    #     raise HTTPException(status_code=404, detail="movie not found.")
 
     return json
 
