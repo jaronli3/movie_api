@@ -80,15 +80,13 @@ def get_character(id: str):
             top_convo_dict2[top_convo_dict[conv]] += 1
 
     
-    sorted_top_convo_2 = sorted(top_convo_dict2.items(), key=operator.itemgetter(1),reverse=True)
-    top = {}
+    # sorted_top_convo_2 = sorted(top_convo_dict2.items(), key=operator.itemgetter(1),reverse=True)
+    # top = {}
 
-    for x in sorted_top_convo_2:
-      print(x[0])
-      print(x[1])
-      top[x[0]] = x[1]
+    # for x in sorted_top_convo_2:
+    #   top[x[0]] = x[1]
 
-    json["top_conversations"] = top
+    json["top_conversations"] = top_convo_dict2
     
 
 
