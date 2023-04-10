@@ -2,6 +2,7 @@ from fastapi import APIRouter, HTTPException
 from enum import Enum
 from src import database as db
 
+import operator
 router = APIRouter()
 
 
@@ -68,13 +69,7 @@ def get_character(id: str):
         curr_char = conversation["character1_id"]
         if conversation["character1_id"] not in top_convo_dict:
           top_convo_dict[current_convo_id] = curr_char
-      # if char_found is True:
-      #   for line in db.lines:
-      #     if line["conversation_id"] == current_convo_id:
-      #       top_convo_dict[curr_char] = top_convo_dict[curr_char] + 1
-      
-    # for line in db.lines:
-    #   if line["conversation_id"] :
+
     
     for conv in top_convo_dict:
       for line in db.lines:
@@ -83,9 +78,8 @@ def get_character(id: str):
             top_convo_dict2[top_convo_dict[conv]] = 1
           else:
             top_convo_dict2[top_convo_dict[conv]] += 1
-        
-    sorted_dict = sorted(top_convo_dict2.items(), key=lambda x:x[1])
 
+    sorted_dict = sorted(top_convo_dict2.items(),key=operator.itemgetter(1))
     json["yes"] = sorted_dict
 
       # sorted_dict = sorted(top_convo_dict.items(), key=lambda x:x[1])
