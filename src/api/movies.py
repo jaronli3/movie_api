@@ -51,17 +51,17 @@ def get_movie(movie_id: str):
             if (x == convo["character1_id"] and movie_id == convo["movie_id"]) or (x == convo["character2_id"] and movie_id == convo["movie_id"]):
                 convo_dict[convo["conversation_id"]] = x
     
-    # for key, value in convo_dict:
-    #     for line in db.lines:
-    #         if line["conversation_id"] == key:
-    #             if convo_dict[value] not in lines_dict:
-    #                 lines_dict[value] = 1
-    #             else:
-    #                 lines_dict[value] += 1
+    for key, value in convo_dict:
+        for line in db.lines:
+            if line["conversation_id"] == key:
+                if convo_dict[value] not in lines_dict:
+                    lines_dict[value] = 1
+                else:
+                    lines_dict[value] += 1
 
 
     # json["top_conversations"] = sorted(top_convo_lst, key=operator.itemgetter('number_of_lines'), reverse= True)
-    json["top_characters"] = convo_dict
+    json["top_characters"] = lines_dict
     return json
 
 
