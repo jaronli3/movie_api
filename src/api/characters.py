@@ -84,6 +84,8 @@ def get_character(id: str):
     top = {}
 
     for x in sorted_top_convo_2:
+      print(x[0])
+      print(x[1])
       top[x[0]] = x[1]
 
     json["top_conversations"] = top
