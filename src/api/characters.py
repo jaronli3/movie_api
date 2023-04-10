@@ -91,7 +91,7 @@ def get_character(id: str):
       for x in top_convo_dict2:
         if character["character_id"] == x:
             new_dict = {}
-            new_dict["character_id"] = character["character_id"]
+            new_dict["character_id"] = int(character["character_id"])
             new_dict["character"] = character["name"]
             if character["gender"] == "":
               new_dict["gender"] = None
@@ -100,7 +100,6 @@ def get_character(id: str):
             new_dict["number_of_lines"] = top_convo_dict2.get(x)
             top_convo_lst.append(new_dict)
 
-    # json["adsf"] = top_convo_dict2
     json["top_conversations"] = top_convo_lst
     
 
