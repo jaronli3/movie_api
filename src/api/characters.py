@@ -80,7 +80,7 @@ def get_character(id: str):
             top_convo_dict2[top_convo_dict[conv]] += 1
 
     
-    sorted_top_convo_2 = sorted(top_convo_dict2.items(), key=operator.itemgetter(1),reverse=True))
+    sorted_top_convo_2 = sorted(top_convo_dict2.items(), key=operator.itemgetter(1),reverse=True)
     top = {}
 
     for x in sorted_top_convo_2:
