@@ -86,7 +86,7 @@ def get_character(id: str):
     for x in sorted_dict:
       top_convo_3[x[0]] = x[1]
 
-    json["yes"] = top_convo_3
+    json["yes"] = sorted_dict
 
       # sorted_dict = sorted(top_convo_dict.items(), key=lambda x:x[1])
       # lst = []
