@@ -30,6 +30,7 @@ def get_character(id: str):
 
     json = None
 
+
     for character in db.characters:
         if character["character_id"] == id:
             json = {}
@@ -80,7 +81,7 @@ def get_character(id: str):
             top_convo_dict2[top_convo_dict[conv]] += 1
 
     top_convo_lst = []
-    
+
     for character in db.characters:
       for x in top_convo_dict2:
         if character["character_id"] == x:
