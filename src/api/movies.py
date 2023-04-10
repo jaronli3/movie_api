@@ -54,7 +54,7 @@ def get_movie(movie_id: str):
     for key, value in convo_dict:
         for line in db.lines:
             if line["conversation_id"] == key:
-                if convo_dict[value] not in lines_dict:
+                if value not in lines_dict:
                     lines_dict[value] = 1
                 else:
                     lines_dict[value] += 1
