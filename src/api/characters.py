@@ -30,7 +30,6 @@ def get_character(id: str):
 
     json = None
 
-
     for character in db.characters:
         if character["character_id"] == id:
             json = {}
