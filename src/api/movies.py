@@ -36,28 +36,28 @@ def get_movie(movie_id: str):
         raise HTTPException(status_code=404, detail="movie not found.")
 
     
-    lst = []
-    convo_dict = {}
-    lines_dict = {}
+    # lst = []
+    # convo_dict = {}
+    # lines_dict = {}
     
-    for char in db.characters:
-        if char["movie_id"] == movie_id:
-            current_char_id = char["character_id"]
-            if current_char_id not in lst:
-                lst.append(current_char_id)
+    # for char in db.characters:
+    #     if char["movie_id"] == movie_id:
+    #         current_char_id = char["character_id"]
+    #         if current_char_id not in lst:
+    #             lst.append(current_char_id)
 
-    for x in lst:
-        for y in db.conversations:
-            if x == y["character1_id"] or x == y["character2_id"]:
-                convo_dict[y["conversation_id"]] = x
+    # for x in lst:
+    #     for y in db.conversations:
+    #         if x == y["character1_id"] or x == y["character2_id"]:
+    #             convo_dict[y["conversation_id"]] = x
     
-    for key, value in convo_dict:
-        for line in db.lines:
-            if line["conversation_id"] == key:
-                if convo_dict[value] not in lines_dict:
-                    lines_dict[value] = 1
-                else:
-                    lines_dict[value] += 1
+    # for key, value in convo_dict:
+    #     for line in db.lines:
+    #         if line["conversation_id"] == key:
+    #             if convo_dict[value] not in lines_dict:
+    #                 lines_dict[value] = 1
+    #             else:
+    #                 lines_dict[value] += 1
 
 
     # json["top_conversations"] = sorted(top_convo_lst, key=operator.itemgetter('number_of_lines'), reverse= True)
