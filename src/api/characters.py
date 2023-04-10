@@ -84,7 +84,7 @@ def get_character(id: str):
           else:
             top_convo_dict2[top_convo_dict[conv]] += 1
         
-
+    sorted_dict = sorted(top_convo_dict2.items(), key=lambda x:x[1])
 
     json["yes"] = top_convo_dict2
 
