@@ -133,5 +133,19 @@ def list_characters(
     number of results to skip before returning results.
     """
 
-    json = None
+    json = []
+  
+    for character in db.characters:
+        if character["name"] == name:
+            dictionary = {}
+            dictionary["character_id"] = int(id)
+            dictionary["character"] = character["name"]
+            dictionary["movie"] = character["movie_id"]
+            num_of_lines = 1
+            for line in db.lines:
+              if line["character_id"] == char:
+                    lines_dict[char] += 1
+            dictionary["number_of_lines"] = num_of_lines
+            json.append(dictionary)
+    
     return json
