@@ -55,9 +55,9 @@ def get_movie(movie_id: str):
         for line in db.lines:
             if line["conversation_id"] == key:
                 if convo_dict[key] not in lines_dict:
-                    lines_dict[value] = 1
+                    lines_dict[convo_dict[key]] = 1
                 else:
-                    lines_dict[value] += 1
+                    lines_dict[convo_dict[key]] += 1
 
 
     # json["top_conversations"] = sorted(top_convo_lst, key=operator.itemgetter('number_of_lines'), reverse= True)
