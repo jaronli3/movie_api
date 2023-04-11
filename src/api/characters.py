@@ -91,7 +91,7 @@ def get_character(id: str):
               new_dict["gender"] = None
             else:
               new_dict["gender"] = character["gender"]
-            new_dict["number_of_lines"] = top_convo_dict2.get(x)
+            new_dict["number_of_lines_together"] = top_convo_dict2.get(x)
             top_convo_lst.append(new_dict)
 
     json["top_conversations"] = sorted(top_convo_lst, key=operator.itemgetter('number_of_lines'), reverse= True)
@@ -149,7 +149,7 @@ def list_characters(
           for line in db.lines:
             if movie_id == line["movie_id"] and str(dictionary["character_id"]) == line["character_id"]:
               num_of_lines += 1
-          dictionary["number_of_lines_together"] = num_of_lines
+          dictionary["number_of_lines"] = num_of_lines
           json.append(dictionary)
 
     if sort.lower() == "character":
