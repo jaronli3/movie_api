@@ -137,7 +137,7 @@ def list_characters(
   
     for character in db.characters:
       movie_id = None
-      num_of_lines = 1
+      num_of_lines = 0
       if character["name"].lower() == name.lower():
           dictionary = {}
           dictionary["character_id"] = character["character_id"]
