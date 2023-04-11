@@ -160,4 +160,3 @@ def list_characters(
       return sorted(json, key=operator.itemgetter('number_of_lines'), reverse = True)[offset:limit + offset]
     
     return json[offset:limit + offset]
-
