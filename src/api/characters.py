@@ -137,7 +137,7 @@ def list_characters(
   
     for character in db.characters:
       movie_id = None
-      num_of_lines = 1
+      num_of_lines = 0
       if character["name"].lower() == name.lower():
           dictionary = {}
           dictionary["character_id"] = int(character["character_id"])
@@ -147,7 +147,7 @@ def list_characters(
               dictionary["movie"] = movie["title"]
               movie_id = movie["movie_id"]
           for line in db.lines:
-            if movie_id == line["movie_id"] and dictionary["character_id"] == line["character_id"]:
+            if movie_id == line["movie_id"] and str(dictionary["character_id"]) == line["character_id"]:
               num_of_lines += 1
           dictionary["number_of_lines"] = num_of_lines
           json.append(dictionary)
