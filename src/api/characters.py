@@ -136,16 +136,20 @@ def list_characters(
     json = []
   
     for character in db.characters:
-        if character["name"] == name:
-            dictionary = {}
-            dictionary["character_id"] = character["character_id"]
-            dictionary["character"] = character["name"]
-            dictionary["movie"] = character["movie_id"]
-            num_of_lines = 1
-            for line in db.lines:
-              if line["character_id"] == char:
-                    lines_dict[char] += 1
-            dictionary["number_of_lines"] = num_of_lines
-            json.append(dictionary)
-    
+      movie_id = None
+      num_of_lines = 1
+      if character["name"] == name:
+          dictionary = {}
+          dictionary["character_id"] = character["character_id"]
+          dictionary["character"] = character["name"]
+          for movie in db.movies:
+            if movie["movie_id"] == character["movie_id"]:
+              dictionary["movie"] = movie["title"]
+              movie_id = movie["movie_id"]
+          for line in db.lines:
+            if movie_id == line["movie_id"] and dictionary["character_id"] == line["character_id"]:
+              num_of_lines += 1
+          dictionary["number_of_lines"] = num_of_lines
+      json.append(dictionary)
+
     return json
