@@ -54,8 +54,18 @@ def get_movie(movie_id: str):
                 else:
                     lines_dict[char] += 1
 
+    top_convo_lst = []
 
-    json["top_conversations"] = sorted(lines_dict, key=operator.itemgetter(lines_dict.values()), reverse= True)
+    for character in db.characters:
+      for x in lines_dict:
+        if character["character_id"] == x:
+            new_dict = {}
+            new_dict["character_id"] = int(character["character_id"])
+            new_dict["character"] = character["name"]
+            new_dict["num_lines"] = lines_dict.get(x)
+            top_convo_lst.append(new_dict)
+
+    json["top_conversations"] = sorted(top_convo_lst, key=operator.itemgetter('num_lines'), reverse= True)
     # json["top_characters"] = lines_dict
     return json
 
