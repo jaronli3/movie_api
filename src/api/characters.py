@@ -94,7 +94,7 @@ def get_character(id: str):
             new_dict["number_of_lines_together"] = top_convo_dict2.get(x)
             top_convo_lst.append(new_dict)
 
-    json["top_conversations"] = sorted(top_convo_lst, key=operator.itemgetter('number_of_lines'), reverse= True)
+    json["top_conversations"] = sorted(top_convo_lst, key=operator.itemgetter('number_of_lines_together'), reverse= True)
   
     return json
 
