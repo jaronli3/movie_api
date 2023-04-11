@@ -135,7 +135,6 @@ def list_characters(
 
     json = []
   
-
     for character in db.characters:
       movie_id = None
       num_of_lines = 0
