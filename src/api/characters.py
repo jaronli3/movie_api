@@ -138,7 +138,7 @@ def list_characters(
     for character in db.characters:
         if character["name"] == name:
             dictionary = {}
-            dictionary["character_id"] = int(id)
+            dictionary["character_id"] = character["character_id"]
             dictionary["character"] = character["name"]
             dictionary["movie"] = character["movie_id"]
             num_of_lines = 1
