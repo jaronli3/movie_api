@@ -107,6 +107,25 @@ def list_movies(
     maximum number of results to return. The `offset` query parameter specifies the
     number of results to skip before returning results.
     """
-    json = None
+    json = []
 
-    return json
+    for movies in db.movies:
+      movie_id = None
+      num_of_lines = 0
+      if movie.lower() in movies["title"]:
+          dictionary = {}
+          dictionary["movie_id"] = int(movies["movie_id"])
+          dictionary["movie_title"] = movies["title"]
+          dictionary["year"] = movies["year"]
+          dictionary["imdb_rating"] = movies["imdb_rating"]
+          dictionary["imdb_votes"] = movies["imdb_votes"]
+          json.append(dictionary)
+
+    if sort.lower() == "movie_title":
+      return sorted(json, key=operator.itemgetter('movie_title'))[offset:limit + offset]
+    elif sort.lower() == "year":
+      return sorted(json, key=operator.itemgetter('year'))[offset:limit + offset]
+    elif sort.lower() == "rating":
+      return sorted(json, key=operator.itemgetter('imdb_rating'), reverse = True)[offset:limit + offset]
+
+    return json[offset:limit + offset]
