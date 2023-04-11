@@ -152,5 +152,11 @@ def list_characters(
           dictionary["number_of_lines"] = num_of_lines
           json.append(dictionary)
 
+    if sort.lower() == "character":
+      return sorted(json, key=operator.itemgetter('character'))[offset:limit]
+    elif sort.lower() == "movie":
+      return sorted(json, key=operator.itemgetter('movie'))[offset:limit]
+    elif sort.lower() == "number_of_lines":
+      return sorted(json, key=operator.itemgetter('number_of_lines'), reverse = True)[offset:limit]
     
     return json[offset:limit]
