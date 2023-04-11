@@ -51,10 +51,10 @@ def get_movie(movie_id: str):
             if (x == convo["character1_id"] and movie_id == convo["movie_id"]) or (x == convo["character2_id"] and movie_id == convo["movie_id"]):
                 convo_dict[convo["conversation_id"]] = x
     
-    for key, value in convo_dict.items():
+    for key in convo_dict:
         for line in db.lines:
             if line["conversation_id"] == key:
-                if value not in lines_dict:
+                if convo_dict[key] not in lines_dict:
                     lines_dict[value] = 1
                 else:
                     lines_dict[value] += 1
