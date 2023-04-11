@@ -45,11 +45,6 @@ def get_movie(movie_id: str):
         if char["movie_id"] == movie_id:
             current_char_id = char["character_id"]
             lst.append(current_char_id)
-
-    # for x in lst:
-    #     for convo in db.conversations:
-    #         if (x == convo["character1_id"] and movie_id == convo["movie_id"]) or (x == convo["character2_id"] and movie_id == convo["movie_id"]):
-    #             convo_dict[convo["conversation_id"]] = x
     
     for char in lst:
         for line in db.lines:
@@ -60,8 +55,8 @@ def get_movie(movie_id: str):
                     lines_dict[char] += 1
 
 
-    # json["top_conversations"] = sorted(top_convo_lst, key=operator.itemgetter('number_of_lines'), reverse= True)
-    json["top_characters"] = lines_dict
+    json["top_conversations"] = sorted(lines_dict, key=operator.itemgetter('number_of_lines'), reverse= True)
+   
     return json
 
 
