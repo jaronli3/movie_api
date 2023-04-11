@@ -55,8 +55,8 @@ def get_movie(movie_id: str):
                     lines_dict[char] += 1
 
 
-    # json["top_conversations"] = sorted(lines_dict, key=operator.itemgetter('number_of_lines'), reverse= True)
-    json["top_characters"] = lines_dict
+    json["top_conversations"] = sorted(lines_dict, key=operator.itemgetter(lines_dict.values()), reverse= True)
+    # json["top_characters"] = lines_dict
     return json
 
 
