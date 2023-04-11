@@ -53,7 +53,7 @@ def get_movie(movie_id: str):
     
     for char in lst:
         for line in db.lines:
-            if line["character_id"] == char and line[movie_id] == movie_id:
+            if line["character_id"] == char and line["movie_id"] == movie_id:
                 if char not in lines_dict:
                     lines_dict[char] = 1
                 else:
