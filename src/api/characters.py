@@ -135,7 +135,7 @@ def list_characters(
 
     json = []
   
-  
+
     for character in db.characters:
       movie_id = None
       num_of_lines = 0
@@ -153,4 +153,5 @@ def list_characters(
           dictionary["number_of_lines"] = num_of_lines
           json.append(dictionary)
 
-    return json
+    
+    return json[offset:limit]
