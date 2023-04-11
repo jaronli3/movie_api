@@ -110,8 +110,6 @@ def list_movies(
     json = []
 
     for movies in db.movies:
-      movie_id = None
-      num_of_lines = 0
       if movie.lower() in movies["title"]:
           dictionary = {}
           dictionary["movie_id"] = int(movies["movie_id"])
@@ -121,11 +119,11 @@ def list_movies(
           dictionary["imdb_votes"] = movies["imdb_votes"]
           json.append(dictionary)
 
-    if sort.lower() == "movie_title":
-      return sorted(json, key=operator.itemgetter('movie_title'))[offset:limit + offset]
-    elif sort.lower() == "year":
-      return sorted(json, key=operator.itemgetter('year'))[offset:limit + offset]
-    elif sort.lower() == "rating":
-      return sorted(json, key=operator.itemgetter('imdb_rating'), reverse = True)[offset:limit + offset]
+    # if sort.lower() == "movie_title":
+    #   return sorted(json, key=operator.itemgetter('movie_title'))[offset:limit + offset]
+    # elif sort.lower() == "year":
+    #   return sorted(json, key=operator.itemgetter('year'))[offset:limit + offset]
+    # elif sort.lower() == "rating":
+    #   return sorted(json, key=operator.itemgetter('imdb_rating'), reverse = True)[offset:limit + offset]
 
     return json[offset:limit + offset]
