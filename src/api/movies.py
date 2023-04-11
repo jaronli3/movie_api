@@ -115,8 +115,8 @@ def list_movies(
           dictionary["movie_id"] = int(movies["movie_id"])
           dictionary["movie_title"] = movies["title"]
           dictionary["year"] = movies["year"]
-          dictionary["imdb_rating"] = movies["imdb_rating"]
-          dictionary["imdb_votes"] = movies["imdb_votes"]
+          dictionary["imdb_rating"] = int(movies["imdb_rating"])
+          dictionary["imdb_votes"] = int(movies["imdb_votes"])
           json.append(dictionary)
 
     if sort.lower() == "movie_title":
