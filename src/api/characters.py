@@ -149,7 +149,7 @@ def list_characters(
           for line in db.lines:
             if movie_id == line["movie_id"] and str(dictionary["character_id"]) == line["character_id"]:
               num_of_lines += 1
-          dictionary["number_of_lines"] = num_of_lines
+          dictionary["number_of_lines_together"] = num_of_lines
           json.append(dictionary)
 
     if sort.lower() == "character":
