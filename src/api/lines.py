@@ -7,7 +7,7 @@ import operator
 router = APIRouter()
 
 
-@router.get("/movies/{movie_id}", tags=["movies"])
+@router.get("/lines/{movie_id}", tags=["lines"])
 def get_movie(movie_id: str):
     """
     This endpoint returns a single movie by its identifier. For each movie it returns:
