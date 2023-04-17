@@ -6,8 +6,8 @@ import operator
 
 router = APIRouter()
 
-@router.get("/lines/{id}", tags=["lines"])
-def get_line(id: str):
+@router.get("/lines/{line_id}", tags=["lines"])
+def get_line(line_id: str):
     """
     This endpoint returns a single line by its identifier. For each line it returns:
     * `line_id`: the internal id of the line.
@@ -30,14 +30,14 @@ def get_line(id: str):
     character_2 = None
 
     for line in db.lines:
-        if line["line_id"] == id:
-            json = {}
-            json["line_id"] = id
-            json["line_text"] = line["line_text"]
-            movie_id = line["movie_id"]
-            convo_id = line["conversation_id"]
-            character_1 = line["character_id"]
-            break
+        # if line["line_id"] == line_id:
+        json = {}
+        #     json["line_id"] = line_id
+        #     json["line_text"] = line["line_text"]
+        #     movie_id = line["movie_id"]
+        #     convo_id = line["conversation_id"]
+        #     character_1 = line["character_id"]
+        break
 
     if json is None:
         raise HTTPException(status_code=404, detail="line not found.")
