@@ -6,8 +6,8 @@ import operator
 
 router = APIRouter()
 
-@router.get("/lines/{line_id}", tags=["lines"])
-def get_line(line_id: str):
+@router.get("/lines/{id}", tags=["lines"])
+def get_line(id: str):
     """
     This endpoint returns a single line by its identifier. For each line it returns:
     * `line_id`: the internal id of the line.
