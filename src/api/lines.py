@@ -29,7 +29,7 @@ def get_line(id: str):
     character_1 = None
     character_2 = None
 
-    for line in db.lines:
+    for conv in db.conversations:
         # if line["line_id"] == line_id:
         #     json = {}
         #     json["line_id"] = line_id
@@ -38,10 +38,11 @@ def get_line(id: str):
         #     convo_id = line["conversation_id"]
         #     character_1 = line["character_id"]
         #     break
-        json = {}
-        # json["line_id"] = line_id
-        json["line_text"] = line["line_text"]
-        break
+        if id != "":
+            json = {}
+            json["x"] = conv["movie_id"]
+            break
+        
 
     if json is None:
         raise HTTPException(status_code=404, detail="line not found.")
