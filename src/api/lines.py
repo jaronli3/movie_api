@@ -30,11 +30,11 @@ def get_line(line_id: str):
     character_1 = None
     character_2 = None
 
-    for line in db.lines:
-        if line["line_id"] == line_id:
-            json = {}
-            json["line_id"] = line_id
-            json["line_text"] = line["line_text"]
+    # for line in db.lines:
+    #     if line["line_id"] == line_id:
+    #         json = {}
+    #         json["line_id"] = line_id
+    #         json["line_text"] = line["line_text"]
             # movie_id = line["movie_id"]
             # convo_id = line["conversation_id"]
             # character_1 = line["character_id"]
