@@ -47,38 +47,38 @@ def get_line(line_id: int):
         if movie_id == movie["movie_id"]:
             json["movie"] = movie["title"]
     
-    for convo in db.conversations:
-        if convo["character1_id"] == character_1:
-            character_2 = convo["character2_id"]
-        elif convo["character2_id"] == character_1:
-            character_2 = convo["character1_id"]
+    # for convo in db.conversations:
+    #     if convo["character1_id"] == character_1:
+    #         character_2 = convo["character2_id"]
+    #     elif convo["character2_id"] == character_1:
+    #         character_2 = convo["character1_id"]
 
 
-    lst = []
+    # lst = []
     
-    for char in db.characters:
-        char_json = {}
-        if char["character_id"] == character_1:
-            char_json["character_id"] = char["character_id"]
-            char_json["name"] = char["name"]
-            if character["gender"] == "":
-              char_json["gender"] = None
-            else:
-              char_json["gender"] = char["gender"]
-            char_json["age"] = int(char["age"])
-            lst.append(char_json)
-        elif char["character_id"] == character_2:
-            char_json["character_id"] = char["character_id"]
-            char_json["name"] = char["name"]
-            if character["gender"] == "":
-              char_json["gender"] = None
-            else:
-              char_json["gender"] = char["gender"]
-            char_json["age"] = int(char["age"])
-            lst.append(char_json)
+    # for char in db.characters:
+    #     char_json = {}
+    #     if char["character_id"] == character_1:
+    #         char_json["character_id"] = char["character_id"]
+    #         char_json["name"] = char["name"]
+    #         if character["gender"] == "":
+    #           char_json["gender"] = None
+    #         else:
+    #           char_json["gender"] = char["gender"]
+    #         char_json["age"] = int(char["age"])
+    #         lst.append(char_json)
+    #     elif char["character_id"] == character_2:
+    #         char_json["character_id"] = char["character_id"]
+    #         char_json["name"] = char["name"]
+    #         if character["gender"] == "":
+    #           char_json["gender"] = None
+    #         else:
+    #           char_json["gender"] = char["gender"]
+    #         char_json["age"] = int(char["age"])
+    #         lst.append(char_json)
 
-    json["characters_involved"] = lst
-    
+    # json["characters_involved"] = lst
+
     return json
 
 # Add get parameters
