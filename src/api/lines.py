@@ -8,7 +8,7 @@ import operator
 router = APIRouter()
 
 @router.get("/lines/{line_id}", tags=["lines"])
-def get_line(line_id: int):
+def get_line(line_id: str):
     """
     This endpoint returns a single line by its identifier. For each line it returns:
     * `line_id`: the internal id of the line.
@@ -31,7 +31,7 @@ def get_line(line_id: int):
     character_2 = None
 
     for line in db.lines:
-        if int(line["line_id"]) == line_id:
+        if line["line_id"] == line_id:
             json = {}
             json["line_id"] = line_id
             json["line_text"] = line["line_text"]
