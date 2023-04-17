@@ -39,8 +39,8 @@ def get_line(line_id: str):
         #     character_1 = line["character_id"]
         #     break
         json = {}
-        json["line_id"] = line_id
-        json["line_text"] = line["line_text"]
+        # json["line_id"] = line_id
+        # json["line_text"] = line["line_text"]
         break
 
     if json is None:
