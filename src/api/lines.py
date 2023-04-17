@@ -24,21 +24,22 @@ def get_line(line_id: str):
 
     """
 
-    json = {}
+    json = None
     movie_id = None
     convo_id = None
     character_1 = None
     character_2 = None
 
-    # for line in db.lines:
-    #     if line["line_id"] == line_id:
-    #         json = {}
-    #         # json["line_id"] = line_id
-    #         # json["line_text"] = line["line_text"]
-    #         # movie_id = line["movie_id"]
-    #         # convo_id = line["conversation_id"]
-    #         # character_1 = line["character_id"]
-    #         break
+    for line in db.lines:
+        # if line["line_id"] == line_id:
+        json = {}
+        json["line_id"] = line["line_id"]
+            # json["line_id"] = line_id
+            # json["line_text"] = line["line_text"]
+            # movie_id = line["movie_id"]
+            # convo_id = line["conversation_id"]
+            # character_1 = line["character_id"]
+        break
 
     if json is None:
         raise HTTPException(status_code=404, detail="line not found.")
