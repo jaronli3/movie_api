@@ -31,7 +31,7 @@ def get_line(line_id: int):
     character_2 = None
 
     for line in db.lines:
-        if line["line_id"] == line_id:
+        if int(line["line_id"]) == line_id:
             json = {}
             json["line_id"] = line_id
             json["line_text"] = line["line_text"]
