@@ -43,9 +43,9 @@ def get_line(line_id: int):
     if json is None:
         raise HTTPException(status_code=404, detail="line not found.")
 
-    for movie in db.movies:
-        if movie_id == movie["movie_id"]:
-            json["movie"] = movie["title"]
+    # for movie in db.movies:
+    #     if movie_id == movie["movie_id"]:
+    #         json["movie"] = movie["title"]
     
     # for convo in db.conversations:
     #     if convo["character1_id"] == character_1:
