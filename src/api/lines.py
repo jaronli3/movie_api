@@ -38,7 +38,7 @@ def get_line(line_id: str):
             # movie_id = line["movie_id"]
             # convo_id = line["conversation_id"]
             # character_1 = line["character_id"]
-            break
+            # break
 
     if json is None:
         raise HTTPException(status_code=404, detail="line not found.")
