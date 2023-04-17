@@ -35,9 +35,9 @@ def get_line(line_id: int):
             json = {}
             json["line_id"] = line_id
             json["line_text"] = line["line_text"]
-            movie_id = line["movie_id"]
-            convo_id = line["conversation_id"]
-            character_1 = line["character_id"]
+            # movie_id = line["movie_id"]
+            # convo_id = line["conversation_id"]
+            # character_1 = line["character_id"]
             break
 
     if json is None:
