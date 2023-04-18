@@ -66,28 +66,20 @@ def get_char_lines(character_id: int, limit: int = Query(50, ge=1, le=250), offs
     * 'movie_title': The movie the character spoke in.
     * `line`: The line the character said. 
     """
-
     json = []
     char = db.characters.get(character_id)
     list_of_lines = list(db.lines.values())
-    # json.append(char.name)
     if char:
         for line in list_of_lines:
             if line.c_id == char.id:
                 json.append(char.name)
-
                 # dictionary = {}
                 # dictionary["character_id"] = char.id
                 # dictionary["character_name"] = char.name
                 # movie = db.movies.get(line.line_id)
                 # dictionary["movie_title"] = movie.title
                 # dictionary["line"] = line.line_text
-                # json.append(dictionary)
+                json.append(dictionary)
 
     return json
-    # if sort.lower() == "movie_title":
-    #   return sorted(json, key=operator.itemgetter('movie_title'))[offset:limit + offset]
-    # elif sort.lower() == "year":
-    #   return sorted(json, key=operator.itemgetter('year'))[offset:limit + offset]
-    # elif sort.lower() == "rating":
-    #   return sorted(json, key=operator.itemgetter('imdb_rating'), reverse = True)[offset:limit + offset]
+    
