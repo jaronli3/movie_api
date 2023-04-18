@@ -69,17 +69,17 @@ def get_char_lines(character_id: int, limit: int = Query(50, ge=1, le=250), offs
 
     json = []
     char = db.characters.get(character_id)
-    json.append(char.name)
-    # if char:
-    #     for line in lines:
-    #         if int(line["character_id"]) == char.id:
-    #             dictionary = {}
-    #             dictionary["character_id"] = char.id
-    #             dictionary["character_name"] = char.name
-    #             movie = db.movies.get(line["line_id"])
-    #             dictionary["movie_title"] = movie.title
-    #             dictionary["line"] = line["line_text"]
-    #             json.append(dictionary)
+    # json.append(char.name)
+    if char:
+        for line in lines:
+            if int(line["character_id"]) == char.id:
+                dictionary = {}
+                dictionary["character_id"] = char.id
+                dictionary["character_name"] = char.name
+                # movie = db.movies.get(line["line_id"])
+                # dictionary["movie_title"] = movie.title
+                # dictionary["line"] = line["line_text"]
+                json.append(dictionary)
 
     return json
     # if sort.lower() == "movie_title":
