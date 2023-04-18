@@ -41,7 +41,7 @@ def get_movie(movie_id: int):
     #     }
     #     return result
     for line in db.lines:
-        if line["line_id"] == id:
+        if line["line_id"] == movie_id:
             json = {}
             json["line_id"] = line["line_id"]
             json["line_text"] = line["line_text"]
@@ -49,6 +49,7 @@ def get_movie(movie_id: int):
             convo_id = line["conversation_id"]
             character_1 = line["character_id"]
             return json
+            
     raise HTTPException(status_code=404, detail="movie not found.")
 
 
