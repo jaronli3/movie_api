@@ -44,32 +44,15 @@ def get_line(line_id: int):
         elif conversation.c2_id == char1:
             char2 = conversation.c1_id
 
-        json["char1"] = char1
-        json["char2"] = char2
-        # lst = []
-        # for char in db.characters:
-        #     char_json = {}
-        #     if char["character_id"] == char1:
-        #         char_json["character_id"] = char["character_id"]
-        #         char_json["name"] = char["name"]
-        #         if character["gender"] == "":
-        #             char_json["gender"] = None
-        #         else:
-        #             char_json["gender"] = char["gender"]
-        #         char_json["age"] = int(char["age"])
-        #         lst.append(char_json)
-        #     elif char["character_id"] == char2:
-        #         char_json["character_id"] = char["character_id"]
-        #         char_json["name"] = char["name"]
-        #         if character["gender"] == "":
-        #             char_json["gender"] = None
-        #         else:
-        #             char_json["gender"] = char["gender"]
-        #         char_json["age"] = int(char["age"])
-        #         lst.append(char_json)
-
-        # json["characters involved"] = lst
-
+        lst = []
+        character1 = db.characters.get(char1)
+        character2 = db.characters.get(char2)
+        char1_json = {"character_id": character1.id, "character name": character1.name, "gender": character1.gender, "age": character1.age}
+        char2_json = {"character_id": character2.id, "character name": character2.name, "gender": character2.gender, "age": character2.age}
+        lst.append(char1_json)
+        lst.append(char2_json)
+        json["characters involved"] = lst
+    
         return json
     
     raise HTTPException(status_code=404, detail="line not found.")
