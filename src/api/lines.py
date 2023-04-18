@@ -7,8 +7,8 @@ import operator
 
 router = APIRouter()
 
-@router.get("/lines/{movie_id}", tags=["lines"])
-def get_line(movie_id: str):
+@router.get("/lines/{line_id}", tags=["lines"])
+def get_line(line_id: str):
     """
     This endpoint returns a single line by its identifier. For each line it returns:
     * `line_id`: the internal id of the line.
@@ -20,20 +20,9 @@ def get_line(movie_id: str):
     * `character`: The name of the character.
     * `gender`: The gender of the character.
     """
-    movie = db.movies.get(movie_id)
-    if movie:
-        top_chars = [
-            {"character_id": c.id, "character": c.name, "num_lines": c.num_lines}
-            for c in db.characters.values()
-            if c.movie_id == movie_id
-        ]
-        top_chars.sort(key=lambda c: c["num_lines"], reverse=True)
-
-        result = {
-            "movie_id": movie_id,
-            "title": movie.title,
-            "top_characters": top_chars[0:5],
-        }
-        return result
-
-    raise HTTPException(status_code=404, detail="movie not found.")
+    line = db.lines.get(line_id)
+    if line:
+        json = {"line_id": line.id, "line_text": line.line_text}
+        return json
+    
+    raise HTTPException(status_code=404, detail="line not found.")

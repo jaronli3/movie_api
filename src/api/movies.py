@@ -22,24 +22,29 @@ def get_movie(movie_id: int):
     * `character`: The name of the character.
     * `num_lines`: The number of lines the character has in the movie.
     """
+    line = db.lines.get(line_id)
+    if line:
+        json = {"line_id": line.id, "line_text": line.line_text}
+        return json
+    
+    raise HTTPException(status_code=404, detail="line not found.")
+    # movie = db.movies.get(movie_id)
+    # if movie:
+    #     top_chars = [
+    #         {"character_id": c.id, "character": c.name, "num_lines": c.num_lines}
+    #         for c in db.characters.values()
+    #         if c.movie_id == movie_id
+    #     ]
+    #     top_chars.sort(key=lambda c: c["num_lines"], reverse=True)
 
-    movie = db.movies.get(movie_id)
-    if movie:
-        top_chars = [
-            {"character_id": c.id, "character": c.name, "num_lines": c.num_lines}
-            for c in db.characters.values()
-            if c.movie_id == movie_id
-        ]
-        top_chars.sort(key=lambda c: c["num_lines"], reverse=True)
+    #     result = {
+    #         "movie_id": movie_id,
+    #         "title": movie.title,
+    #         "top_characters": top_chars[0:5],
+    #     }
+    #     return result
 
-        result = {
-            "movie_id": movie_id,
-            "title": movie.title,
-            "top_characters": top_chars[0:5],
-        }
-        return result
-
-    raise HTTPException(status_code=404, detail="movie not found.")
+    # raise HTTPException(status_code=404, detail="movie not found.")
 
 
 class movie_sort_options(str, Enum):
