@@ -14,7 +14,7 @@ def get_line(line_id: int):
     * `line_id`: the internal id of the line.
     * `line_text`: The text of the line.
     * 'movie_title': The movie the line came from.
-    * `characters_involved`: A list of characters that were involved in that conversation. 
+    * `speaker`: Character who said the line. 
 
     Each character is represented by a dictionary with the following keys:
     * `character_id`: the internal id of the character.
@@ -38,38 +38,37 @@ def get_line(line_id: int):
         movie = db.movies.get(mov_id)
         json["movie_title"] = movie.title
                 
-
-        # for convo in db.conversations:
-        #     if convo_id == convo["id"]:
-        #         if convo["character1_id"] == char1:
-        #             char2 = convo["character2_id"]
-        #         elif convo["character2_id"] == char1:
-        #             char2 = convo["character1_id"]
-        #         break
+        for convo in db.conversations:
+            if convo_id == convo["id"]:
+                if convo["character1_id"] == char1:
+                    char2 = convo["character2_id"]
+                elif convo["character2_id"] == char1:
+                    char2 = convo["character1_id"]
+                break
                 
-        # lst = []
-        # for char in db.characters:
-        #     char_json = {}
-        #     if char["character_id"] == char1:
-        #         char_json["character_id"] = char["character_id"]
-        #         char_json["name"] = char["name"]
-        #         if character["gender"] == "":
-        #             char_json["gender"] = None
-        #         else:
-        #             char_json["gender"] = char["gender"]
-        #         char_json["age"] = int(char["age"])
-        #         lst.append(char_json)
-        #     elif char["character_id"] == char2:
-        #         char_json["character_id"] = char["character_id"]
-        #         char_json["name"] = char["name"]
-        #         if character["gender"] == "":
-        #             char_json["gender"] = None
-        #         else:
-        #             char_json["gender"] = char["gender"]
-        #         char_json["age"] = int(char["age"])
-        #         lst.append(char_json)
+        lst = []
+        for char in db.characters:
+            char_json = {}
+            if char["character_id"] == char1:
+                char_json["character_id"] = char["character_id"]
+                char_json["name"] = char["name"]
+                if character["gender"] == "":
+                    char_json["gender"] = None
+                else:
+                    char_json["gender"] = char["gender"]
+                char_json["age"] = int(char["age"])
+                lst.append(char_json)
+            elif char["character_id"] == char2:
+                char_json["character_id"] = char["character_id"]
+                char_json["name"] = char["name"]
+                if character["gender"] == "":
+                    char_json["gender"] = None
+                else:
+                    char_json["gender"] = char["gender"]
+                char_json["age"] = int(char["age"])
+                lst.append(char_json)
 
-        # json["characters involved"] = lst
+        json["characters involved"] = lst
 
         return json
     
