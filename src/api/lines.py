@@ -31,6 +31,7 @@ def get_line_by_character(id: str):
     if char:
         json = {}
         json["movie"] = char["name"]
+        return json
 
     if json is None:
         raise HTTPException(status_code=404, detail="line not found.")
