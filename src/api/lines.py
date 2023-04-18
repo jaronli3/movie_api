@@ -68,7 +68,7 @@ def get_char_lines(character_id: int, limit: int = Query(50, ge=1, le=250), offs
     """
 
     json = []
-    char = db.characters.get(character_name)
+    char = db.characters.get(character_id)
     if char:
         for line in lines:
             if int(line["character_id"]) == char.id:
