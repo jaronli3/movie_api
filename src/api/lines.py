@@ -32,12 +32,13 @@ def get_line(line_id: int):
         convo_id = None
         json["line_id"] = line.id
         json["line_text"] = line.line_text
-        movie_id = line.movie_id
+        mov_id = line.movie_id
         char1 = line.c_id
         convo_id = line.conv_id
-        for movie in db.movies:
-            if movie["movie_id"] == mov_id:
-                json["movie_title"] = movie["title"]
+        json["movie"] = mov_id
+        # for movie in db.movies:
+        #     if movie["movie_id"] == mov_id:
+        #         json["movie_title"] = movie["title"]
                 
 
         # for convo in db.conversations:
