@@ -25,11 +25,14 @@ def get_line(line_id: int):
 
     line = db.lines.get(line_id)
     if line:
+        json = {}
         movie_id = None
         char1 = None
         char2 = None
         convo_id = None
-        json = {"line_id": line.id, "line_text": line.line_text}
+        json["line_id"] = line.id
+        json["line_text"] = line.line_text
+        # json = {"line_id": line.id, "line_text": line.line_text}
         # movie_id = line.movie_id
         # char1 = line.character_id
         # convo_id = line.conv_id
