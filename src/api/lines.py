@@ -13,7 +13,7 @@ def get_line(line_id: int):
     This endpoint returns a single line by its identifier. For each line it returns:
     * `line_id`: the internal id of the line.
     * `line_text`: The text of the line.
-    * 'movie': The movie the line came from.
+    * 'movie_title': The movie the line came from.
     * `characters_involved`: A list of characters that were involved in that conversation. 
 
     Each character is represented by a dictionary with the following keys:
@@ -26,7 +26,7 @@ def get_line(line_id: int):
     line = db.lines.get(line_id)
     if line:
         json = {}
-        movie_id = None
+        mov_id = None
         char1 = None
         char2 = None
         convo_id = None
@@ -35,10 +35,10 @@ def get_line(line_id: int):
         movie_id = line.movie_id
         char1 = line.c_id
         convo_id = line.conv_id
-        # for movie in db.movies:
-        #     if movie["movie_id"] == movie_id:
-        #         json["movie"] = movie["title"]
-        #         break
+        for movie in db.movies:
+            if movie["movie_id"] == mov_id:
+                json["movie_title"] = movie["title"]
+                
 
         # for convo in db.conversations:
         #     if convo_id == convo["id"]:
