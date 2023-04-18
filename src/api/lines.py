@@ -68,18 +68,20 @@ def get_char_lines(character_id: int):
     """
 
     char = db.characters.get(character_id)
-    if char:
-        json = []
-        for line in db.lines:
-            if int(line["character_id"]) == char.id:
-                json1 = {}
-                json1["character_id"] = char.id
-                json1["character_name"] = char.name
-                movie_id = line["movie_id"]
-                movie = db.movies.get(movie_id)
-                json1["movie_title"] = movie.title
-                json1["line_text"] = line["line_text"]
-                json.append(json1)
-        return json
+    json["id"] = char.name
+    return json
+    # if char:
+    #     json = []
+    #     for line in db.lines:
+    #         if int(line["character_id"]) == char.id:
+    #             json1 = {}
+    #             json1["character_id"] = char.id
+    #             json1["character_name"] = char.name
+    #             movie_id = line["movie_id"]
+    #             movie = db.movies.get(movie_id)
+    #             json1["movie_title"] = movie.title
+    #             json1["line_text"] = line["line_text"]
+    #             json.append(json1)
+    #     return json
     
-    raise HTTPException(status_code=404, detail="line not found.")
+    raise HTTPException(status_code=404, detail="character not found.")
