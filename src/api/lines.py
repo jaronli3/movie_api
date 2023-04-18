@@ -81,6 +81,7 @@ def get_char_lines(character_id: int, limit: int = Query(50, ge=1, le=250), offs
                 # dictionary["movie_title"] = movie.title
                 # dictionary["line"] = line.line_text
                 json.append(dictionary)
+                
     return json
     # if sort.lower() == "movie_title":
     #   return sorted(json, key=operator.itemgetter('movie_title'))[offset:limit + offset]
