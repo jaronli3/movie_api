@@ -57,8 +57,8 @@ def get_line(line_id: int):
     
     raise HTTPException(status_code=404, detail="line not found.")
 
-@router.get("/lines/{character_id}", tags=["lines"])
-def get_char_lines(character_id: int):
+@router.get("/lines_spoken_by_character/", tags=["lines"])
+def get_char_lines(character_id: int, limit: int = Query(50, ge=1, le=250), offset: int = Query(0, ge=0)):
     """
     This endpoint returns lines spoken by the given character. For each line it returns:
     * `character_id`: the id of the character.
@@ -67,21 +67,23 @@ def get_char_lines(character_id: int):
     * `line`: The line the character said. 
     """
 
-    char = db.characters.get(character_id)
-    # json["id"] = char.name
-    # return json
+    json = []
+    char = db.characters.get(character_name)
     if char:
-        json = []
-        for line in db.lines:
+        for line in lines:
             if int(line["character_id"]) == char.id:
-                json1 = {}
-                json1["character_id"] = char.id
-                json1["character_name"] = char.name
-                movie_id = line["movie_id"]
-                movie = db.movies.get(movie_id)
-                json1["movie_title"] = movie.title
-                json1["line_text"] = line["line_text"]
-                json.append(json1)
-        return json
-    
-    raise HTTPException(status_code=404, detail="character not found.")
+                dictionary = {}
+                dictionary["character_id"] = char.id
+                dictionary["character_name"] = char.name
+                movie = db.movies.get(line["line_id"])
+                dictionary["movie_title"] = movie.title
+                dictionary["line"] = line["line_text"]
+                json.append(dictionary)
+
+    return json
+    # if sort.lower() == "movie_title":
+    #   return sorted(json, key=operator.itemgetter('movie_title'))[offset:limit + offset]
+    # elif sort.lower() == "year":
+    #   return sorted(json, key=operator.itemgetter('year'))[offset:limit + offset]
+    # elif sort.lower() == "rating":
+    #   return sorted(json, key=operator.itemgetter('imdb_rating'), reverse = True)[offset:limit + offset]
