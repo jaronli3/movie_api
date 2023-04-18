@@ -56,3 +56,30 @@ def get_line(line_id: int):
         return json
     
     raise HTTPException(status_code=404, detail="line not found.")
+
+@router.get("/lines/{character_id}", tags=["lines"])
+def get_char_lines(character_id: int):
+    """
+    This endpoint returns lines spoken by the given character. For each line it returns:
+    * `character_id`: the id of the character.
+    * `character_name`: Name of the character.
+    * 'movie_title': The movie the character spoke in.
+    * `line`: The line the character said. 
+    """
+
+    char = db.characters.get(character_id)
+    if char:
+        json = []
+        for line in db.lines:
+            if int(line["character_id"]) == char.id:
+                json1 = {}
+                json1["character_id"] = char.id
+                json1["character_name"] = char.name
+                movie_id = line["movie_id"]
+                movie = db.movies.get(movie_id)
+                json1["movie_title"] = movie.title
+                json1["line_text"] = line["line_text"]
+                json.append(json1)
+        return json
+    
+    raise HTTPException(status_code=404, detail="line not found.")
