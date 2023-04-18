@@ -24,17 +24,15 @@ def get_line(id: str):
 
     """
     
-   
-    json = None
-    movie_id = None
-    convo_id = None
-    character_1 = None
-    character_2 = None
+    # movie_id = None
+    # convo_id = None
+    # character_1 = None
+    # character_2 = None
 
     line = db.lines.get(id)
     if line:
         json = {}
-        json["line_id"] = line["line_id"]
+        json["line_id"] = line
         return json
     # for line in db.lines:
     #     if line["line_id"] == line_id:
@@ -47,7 +45,7 @@ def get_line(id: str):
     #         break
 
     
-    raise HTTPException(status_code=404, detail="line not found.")
+    # raise HTTPException(status_code=404, detail="line not found.")
 
     # for movie in db.movies:
     #     if movie_id == movie["movie_id"]:
