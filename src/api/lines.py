@@ -9,20 +9,20 @@ router = APIRouter()
 
 @router.get("/lines/{id}", tags=["lines"])
 def get_line(id: str):
-    """
-    This endpoint returns a single line by its identifier. For each line it returns:
-    * `line_id`: the internal id of the line.
-    * `line_text`: The text of the line.
-    * 'movie': The movie the line came from.
-    * `characters_involved`: A list of characters that were involved in that conversation. 
+    # """
+    # This endpoint returns a single line by its identifier. For each line it returns:
+    # * `line_id`: the internal id of the line.
+    # * `line_text`: The text of the line.
+    # * 'movie': The movie the line came from.
+    # * `characters_involved`: A list of characters that were involved in that conversation. 
 
-    Each character is represented by a dictionary with the following keys:
-    * `character_id`: the internal id of the character.
-    * `character`: The name of the character.
-    * `gender`: The gender of the character.
-    * 'age': The age of the character.
+    # Each character is represented by a dictionary with the following keys:
+    # * `character_id`: the internal id of the character.
+    # * `character`: The name of the character.
+    # * `gender`: The gender of the character.
+    # * 'age': The age of the character.
 
-    """
+    # """
     
     # movie_id = None
     # convo_id = None
@@ -45,7 +45,7 @@ def get_line(id: str):
     #         break
 
     
-    # raise HTTPException(status_code=404, detail="line not found.")
+    raise HTTPException(status_code=404, detail="line not found.")
 
     # for movie in db.movies:
     #     if movie_id == movie["movie_id"]:
