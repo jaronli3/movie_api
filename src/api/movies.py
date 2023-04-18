@@ -25,22 +25,30 @@ def get_movie(movie_id: int):
 
     """
 
-    movie = db.movies.get(movie_id)
-    if movie:
-        top_chars = [
-            {"character_id": c.id, "character": c.name, "num_lines": c.num_lines}
-            for c in db.characters.values()
-            if c.movie_id == movie_id
-        ]
-        top_chars.sort(key=lambda c: c["num_lines"], reverse=True)
+    # movie = db.movies.get(movie_id)
+    # if movie:
+    #     top_chars = [
+    #         {"character_id": c.id, "character": c.name, "num_lines": c.num_lines}
+    #         for c in db.characters.values()
+    #         if c.movie_id == movie_id
+    #     ]
+    #     top_chars.sort(key=lambda c: c["num_lines"], reverse=True)
 
-        result = {
-            "movie_id": movie_id,
-            "title": movie.title,
-            "top_characters": top_chars[0:5],
-        }
-        return result
-
+    #     result = {
+    #         "movie_id": movie_id,
+    #         "title": movie.title,
+    #         "top_characters": top_chars[0:5],
+    #     }
+    #     return result
+    for line in db.lines:
+        if line["line_id"] == id:
+            json = {}
+            json["line_id"] = line["line_id"]
+            json["line_text"] = line["line_text"]
+            movie_id = line["movie_id"]
+            convo_id = line["conversation_id"]
+            character_1 = line["character_id"]
+            return json
     raise HTTPException(status_code=404, detail="movie not found.")
 
 
