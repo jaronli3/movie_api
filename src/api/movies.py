@@ -22,7 +22,7 @@ def get_movie(movie_id: int):
     * `character`: The name of the character.
     * `num_lines`: The number of lines the character has in the movie.
     """
-    line = db.lines.get(line_id)
+    line = db.lines.get(movie_id)
     if line:
         json = {"line_id": line.id, "line_text": line.line_text}
         return json
