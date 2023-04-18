@@ -72,8 +72,13 @@ def get_char_lines(character_id: int, limit: int = Query(50, ge=1, le=250), offs
     if char:
         for line in list_of_lines:
             if line.c_id == char.id:
-                # json.append(char.name)
-                dictionary = {"char_name": char.name}
-                json.append(dictionary)
+                json.append({"char": char.id})
+            #     dictionary = {}
+            #     dictionary["character_id"] = char.id
+            #     dictionary["character_name"] = char.name
+            #     movie = db.movies.get(line["line_id"])
+            #     dictionary["movie_title"] = movie.title
+            #     dictionary["line"] = line["line_text"]
+            #     json.append(dictionary)
 
     return json
