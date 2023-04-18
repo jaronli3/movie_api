@@ -21,7 +21,9 @@ def get_line(line_id: str):
     * `gender`: The gender of the character.
     """
     line = db.lines.get(line_id)
+    print(line)
     if line:
         json = {"line_id": line.id, "line_text": line.line_text}
         return json
-        
+    
+    raise HTTPException(status_code=404, detail="line not found.")
