@@ -26,7 +26,7 @@ def get_line_by_character(id: str):
     
     json = None
     
-    char = db.characters.get(id)
+    char = db.lines.get(id)
 
     if char:
         json = {}
