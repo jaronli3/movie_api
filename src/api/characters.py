@@ -167,8 +167,8 @@ def list_characters(
     )
     return json
 
-@router.get("/chars/{line_id}", tags=["characters"])
-def get_line(line_id: str):
+@router.get("/chars/{id}", tags=["characters"])
+def get_line(id: str):
     """
     This endpoint returns a single line by its identifier. For each line it returns:
     * `line_id`: the internal id of the line.
