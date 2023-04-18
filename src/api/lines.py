@@ -23,7 +23,7 @@ def get_top_conv_characters(character):
     return line_counts.most_common()
 
 
-@router.get("/lines/{id}", tags=["characters"])
+@router.get("/characters/{id}", tags=["characters"])
 def get_character(id: int):
     """
     This endpoint returns a single character by its identifier. For each character
