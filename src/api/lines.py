@@ -7,20 +7,21 @@ import operator
 
 router = APIRouter()
 
-@router.get("/lines/{line_id}", tags=["lines"])
-def get_line(line_id: str):
+@router.get("/lines/{movie_id}", tags=["lines"])
+def get_line(movie_id: int):
     """
-    This endpoint returns a single line by its identifier. For each line it returns:
-    * `line_id`: the internal id of the line.
-    * `line_text`: The text of the line.
-    * `characters_involved`: A list of characters that were involved in that conversation. 
-
+    This endpoint returns a single movie by its identifier. For each movie it returns:
+    * `movie_id`: the internal id of the movie.
+    * `title`: The title of the movie.
+    * `top_characters`: A list of characters that are in the movie. The characters
+      are ordered by the number of lines they have in the movie. The top five
+      characters are listed.
     Each character is represented by a dictionary with the following keys:
     * `character_id`: the internal id of the character.
     * `character`: The name of the character.
-    * `gender`: The gender of the character.
+    * `num_lines`: The number of lines the character has in the movie.
     """
-    line = db.lines.get(line_id)
+    line = db.lines.get(movie_id)
     if line:
         json = {"line_id": line.id, "line_text": line.line_text}
         return json
