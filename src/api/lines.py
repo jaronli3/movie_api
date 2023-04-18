@@ -20,10 +20,32 @@ def get_line(line_id: str):
     * `character`: The name of the character.
     * `gender`: The gender of the character.
     """
-    line = db.lines.get(line_id)
-    print(line)
-    if line:
-        json = {"line_id": line.id, "line_text": line.line_text}
-        return json
+    character = db.characters.get(line_id)
+
+    if character:
+        movie = db.movies.get(character.movie_id)
+        result = {
+            "character_id": character.id,
+            "character": character.name,
+            "movie": movie and movie.title,
+            "gender": character.gender,
+            "top_conversations": (
+                {
+                    "character_id": other_id,
+                    "character": db.characters[other_id].name,
+                    "gender": db.characters[other_id].gender,
+                    "number_of_lines_together": lines,
+                }
+                for other_id, lines in get_top_conv_characters(character)
+            ),
+        }
+        return result
+
+    raise HTTPException(status_code=404, detail="character not found.")
+    # line = db.lines.get(line_id)
+    # print(line)
+    # if line:
+    #     json = {"line_id": line.id, "line_text": line.line_text}
+    #     return json
     
-    raise HTTPException(status_code=404, detail="line not found.")
+    # raise HTTPException(status_code=404, detail="line not found.")
