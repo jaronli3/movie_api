@@ -29,7 +29,7 @@ def get_line(id: str):
     # character_1 = None
     # character_2 = None
 
-    line = db.lines.get(id)
+    line = db.lines.get("50")
     if line:
         json = {}
         json["line_id"] = line
