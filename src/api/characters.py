@@ -180,10 +180,53 @@ def get_line(line_id: str):
     * `character`: The name of the character.
     * `gender`: The gender of the character.
     """
-    line = db.lines.get(line_id)
+    character = db.characters.get(id)
 
-    if line:
-        json = {"line_id": line.id, "line_text": line.line_text}
-        return json
+    if character:
+        movie = db.movies.get(character.movie_id)
+        result = {
+            "character_id": character.id,
+            "character": character.name,
+            "movie": movie and movie.title,
+            "gender": character.gender,
+            "top_conversations": (
+                {
+                    "character_id": other_id,
+                    "character": db.characters[other_id].name,
+                    "gender": db.characters[other_id].gender,
+                    "number_of_lines_together": lines,
+                }
+                for other_id, lines in get_top_conv_characters(character)
+            ),
+        }
+        return result
+
+    raise HTTPException(status_code=404, detail="character not found.")
+
     
-    raise HTTPException(status_code=404, detail="line not found.")
+    for conv in top_convo_dict:
+      for line in db.lines:
+        if line["conversation_id"] == conv:
+          if top_convo_dict[conv] not in top_convo_dict2:
+            top_convo_dict2[top_convo_dict[conv]] = 1
+          else:
+            top_convo_dict2[top_convo_dict[conv]] += 1
+
+    top_convo_lst = []
+
+    for character in db.characters:
+      for x in top_convo_dict2:
+        if character["character_id"] == x:
+            new_dict = {}
+            new_dict["character_id"] = int(character["character_id"])
+            new_dict["character"] = character["name"]
+            if character["gender"] == "":
+              new_dict["gender"] = None
+            else:
+              new_dict["gender"] = character["gender"]
+            new_dict["number_of_lines_together"] = top_convo_dict2.get(x)
+            top_convo_lst.append(new_dict)
+
+    json["top_conversations"] = sorted(top_convo_lst, key=operator.itemgetter('number_of_lines_together'), reverse= True)
+  
+    return json
