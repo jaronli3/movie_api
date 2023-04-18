@@ -40,10 +40,10 @@ def get_line(line_id: int):
                 
         conversation = db.conversations.get(convo_id)
         if conversation.c1_id == char1:
-            char2 = conv.c2_id
+            char2 = conversation.c2_id
         elif conversation.c2_id == char1:
-            char2 = conv.c1_id
-            
+            char2 = conversation.c1_id
+
         json["char1"] = char1
         json["char2"] = char2
         # lst = []
