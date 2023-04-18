@@ -9,20 +9,17 @@ router = APIRouter()
 
 @router.get("/lines/{id}", tags=["lines"])
 def get_line(id: str):
-    # """
-    # This endpoint returns a single line by its identifier. For each line it returns:
-    # * `line_id`: the internal id of the line.
-    # * `line_text`: The text of the line.
-    # * 'movie': The movie the line came from.
-    # * `characters_involved`: A list of characters that were involved in that conversation. 
+    """
+    This endpoint returns a single line by its identifier. For each line it returns:
+    * `line_id`: the internal id of the line.
+    * `line_text`: The text of the line.
+    * `characters_involved`: A list of characters that were involved in that conversation. 
 
-    # Each character is represented by a dictionary with the following keys:
-    # * `character_id`: the internal id of the character.
-    # * `character`: The name of the character.
-    # * `gender`: The gender of the character.
-    # * 'age': The age of the character.
-
-    # """
+    Each character is represented by a dictionary with the following keys:
+    * `character_id`: the internal id of the character.
+    * `character`: The name of the character.
+    * `gender`: The gender of the character.
+    """
     
     # movie_id = None
     # convo_id = None
@@ -84,49 +81,3 @@ def get_line(id: str):
     # json["characters_involved"] = lst
 
     return json
-
-# Add get parameters
-# @router.get("/lines/", tags=["lines"])
-# def list_lines(
-#     line: str = "",
-#     limit: int = Query(50, ge=1, le=250),
-#     offset: int = Query(0, ge=0),
-# ):
-#     """
-#     This endpoint returns a list of lines. For each line it returns:
-#     * `line_id`: the internal id of the line. 
-#     * `line_text`: The text of the line.
-#     * `movie`: The movie the line came from.
-#     * 'characters_involved': A list of characters that were involved in that conversation. 
-
-#     Each character is represented by a dictionary with the following keys:
-#     * `character_id`: the internal id of the character.
-#     * `character`: The name of the character.
-#     * `gender`: The gender of the character.
-#     * 'age': The age of the character.
-
-#     The `limit` and `offset` query
-#     parameters are used for pagination. The `limit` query parameter specifies the
-#     maximum number of results to return. The `offset` query parameter specifies the
-#     number of results to skip before returning results.
-#     """
-#     json = []
-
-#     for movies in db.movies:
-#       if name.lower() in movies["title"]:
-#           dictionary = {}
-#           dictionary["movie_id"] = int(movies["movie_id"])
-#           dictionary["movie_title"] = movies["title"]
-#           dictionary["year"] = movies["year"]
-#           dictionary["imdb_rating"] = float(movies["imdb_rating"])
-#           dictionary["imdb_votes"] = int(movies["imdb_votes"])
-#           json.append(dictionary)
-
-#     if sort.lower() == "movie_title":
-#       return sorted(json, key=operator.itemgetter('movie_title'))[offset:limit + offset]
-#     elif sort.lower() == "year":
-#       return sorted(json, key=operator.itemgetter('year'))[offset:limit + offset]
-#     elif sort.lower() == "rating":
-#       return sorted(json, key=operator.itemgetter('imdb_rating'), reverse = True)[offset:limit + offset]
-
-#     return json[offset:limit + offset]
