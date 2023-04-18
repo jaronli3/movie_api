@@ -73,8 +73,7 @@ def get_char_lines(character_id: int, limit: int = Query(50, ge=1, le=250), offs
     # json.append(char.name)
     if char:
         for line in list_of_lines:
-            # json.append({"char": char.id})
-            if int(line["character_id"]) == char.id:
+            if line.c_id == char.id:
                 json.append({"char": char.id})
             #     dictionary = {}
             #     dictionary["character_id"] = char.id
