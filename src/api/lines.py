@@ -38,13 +38,12 @@ def get_line(line_id: int):
         movie = db.movies.get(mov_id)
         json["movie_title"] = movie.title
                 
-        for convo in db.conversations:
-            if convo_id == convo["id"]:
-                if convo["character1_id"] == char1:
-                    char2 = convo["character2_id"]
-                elif convo["character2_id"] == char1:
-                    char2 = convo["character1_id"]
-                break
+        conversation = db.conversations.get(convo_id)
+        if conversation.c1_id == char1:
+            char2 = conv.c2_id
+        elif conversation.c2_id == char1:
+            char2 = conv.c1_id
+            
         json["char1"] = char1
         json["char2"] = char2
         # lst = []
