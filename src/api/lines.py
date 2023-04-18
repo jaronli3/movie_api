@@ -7,8 +7,8 @@ import operator
 
 router = APIRouter()
 
-@router.get("/lines/{movie_id}", tags=["lines"])
-def get_line(movie_id: int):
+@router.get("/lines/{line_id}", tags=["lines"])
+def get_line(line_id: int):
     """
     This endpoint returns a single movie by its identifier. For each movie it returns:
     * `movie_id`: the internal id of the movie.
@@ -21,7 +21,7 @@ def get_line(movie_id: int):
     * `character`: The name of the character.
     * `num_lines`: The number of lines the character has in the movie.
     """
-    line = db.lines.get(movie_id)
+    line = db.lines.get(line_id)
     if line:
         json = {"line_id": line.id, "line_text": line.line_text}
         return json
