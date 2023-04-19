@@ -81,3 +81,4 @@ def get_char_lines(character_id: int, limit: int = Query(50, ge=1, le=250), offs
                 json.append(dictionary)
 
     return json
+    
