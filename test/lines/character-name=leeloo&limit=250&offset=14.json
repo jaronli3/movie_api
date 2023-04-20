@@ -1,0 +1,314 @@
+[
+    {
+      "character_id": 85,
+      "character_name": "LEELOO",
+      "movie_id": 5,
+      "movie_title": "the fifth element",
+      "line_text": "Good! Do you know how we say \"make love\"?\"",
+      "speaking to this character": {
+        "character_id": 84,
+        "character_name": "KORBEN",
+        "gender": "M",
+        "age": 1
+      }
+    },
+    {
+      "character_id": 85,
+      "character_name": "LEELOO",
+      "movie_id": 5,
+      "movie_title": "the fifth element",
+      "line_text": "I have thousands of memories but none of them are mine... There is no need for me other than this. I'm immortal but I have no life.",
+      "speaking to this character": {
+        "character_id": 84,
+        "character_name": "KORBEN",
+        "gender": "M",
+        "age": 1
+      }
+    },
+    {
+      "character_id": 85,
+      "character_name": "LEELOO",
+      "movie_id": 5,
+      "movie_title": "the fifth element",
+      "line_text": "I want to sleep... forever...",
+      "speaking to this character": {
+        "character_id": 84,
+        "character_name": "KORBEN",
+        "gender": "M",
+        "age": 1
+      }
+    },
+    {
+      "character_id": 85,
+      "character_name": "LEELOO",
+      "movie_id": 5,
+      "movie_title": "the fifth element",
+      "line_text": "I'm going to see the Diva sing. What's the matter?... Do I look bad?",
+      "speaking to this character": {
+        "character_id": 84,
+        "character_name": "KORBEN",
+        "gender": "M",
+        "age": 1
+      }
+    },
+    {
+      "character_id": 85,
+      "character_name": "LEELOO",
+      "movie_id": 5,
+      "movie_title": "the fifth element",
+      "line_text": "I'm so tired...",
+      "speaking to this character": {
+        "character_id": 84,
+        "character_name": "KORBEN",
+        "gender": "M",
+        "age": 1
+      }
+    },
+    {
+      "character_id": 85,
+      "character_name": "LEELOO",
+      "movie_id": 5,
+      "movie_title": "the fifth element",
+      "line_text": "I'm so very sad.",
+      "speaking to this character": {
+        "character_id": 84,
+        "character_name": "KORBEN",
+        "gender": "M",
+        "age": 1
+      }
+    },
+    {
+      "character_id": 85,
+      "character_name": "LEELOO",
+      "movie_id": 5,
+      "movie_title": "the fifth element",
+      "line_text": "Ikset-kiba. Me imanetaba oum dalat!",
+      "speaking to this character": {
+        "character_id": 78,
+        "character_name": "CORNELIUS",
+        "gender": "M",
+        "age": 3
+      }
+    },
+    {
+      "character_id": 85,
+      "character_name": "LEELOO",
+      "movie_id": 5,
+      "movie_title": "the fifth element",
+      "line_text": "Learning language.",
+      "speaking to this character": {
+        "character_id": 84,
+        "character_name": "KORBEN",
+        "gender": "M",
+        "age": 1
+      }
+    },
+    {
+      "character_id": 85,
+      "character_name": "LEELOO",
+      "movie_id": 5,
+      "movie_title": "the fifth element",
+      "line_text": "Love...",
+      "speaking to this character": {
+        "character_id": 84,
+        "character_name": "KORBEN",
+        "gender": "M",
+        "age": 1
+      }
+    },
+    {
+      "character_id": 85,
+      "character_name": "LEELOO",
+      "movie_id": 5,
+      "movie_title": "the fifth element",
+      "line_text": "Napoleon... small.",
+      "speaking to this character": {
+        "character_id": 78,
+        "character_name": "CORNELIUS",
+        "gender": "M",
+        "age": 3
+      }
+    },
+    {
+      "character_id": 85,
+      "character_name": "LEELOO",
+      "movie_id": 5,
+      "movie_title": "the fifth element",
+      "line_text": "OK you can turn around!",
+      "speaking to this character": {
+        "character_id": 84,
+        "character_name": "KORBEN",
+        "gender": "M",
+        "age": 1
+      }
+    },
+    {
+      "character_id": 85,
+      "character_name": "LEELOO",
+      "movie_id": 5,
+      "movie_title": "the fifth element",
+      "line_text": "Protect life... Until death.",
+      "speaking to this character": {
+        "character_id": 84,
+        "character_name": "KORBEN",
+        "gender": "M",
+        "age": 1
+      }
+    },
+    {
+      "character_id": 85,
+      "character_name": "LEELOO",
+      "movie_id": 5,
+      "movie_title": "the fifth element",
+      "line_text": "San Agamat chay bet... envolet!",
+      "speaking to this character": {
+        "character_id": 78,
+        "character_name": "CORNELIUS",
+        "gender": "M",
+        "age": 3
+      }
+    },
+    {
+      "character_id": 85,
+      "character_name": "LEELOO",
+      "movie_id": 5,
+      "movie_title": "the fifth element",
+      "line_text": "Tell me...",
+      "speaking to this character": {
+        "character_id": 84,
+        "character_name": "KORBEN",
+        "gender": "M",
+        "age": 1
+      }
+    },
+    {
+      "character_id": 85,
+      "character_name": "LEELOO",
+      "movie_id": 5,
+      "movie_title": "the fifth element",
+      "line_text": "The wind blows... the fire burns...",
+      "speaking to this character": {
+        "character_id": 84,
+        "character_name": "KORBEN",
+        "gender": "M",
+        "age": 1
+      }
+    },
+    {
+      "character_id": 85,
+      "character_name": "LEELOO",
+      "movie_id": 5,
+      "movie_title": "the fifth element",
+      "line_text": "Valo massa... Chacha hamas.",
+      "speaking to this character": {
+        "character_id": 84,
+        "character_name": "KORBEN",
+        "gender": "M",
+        "age": 1
+      }
+    },
+    {
+      "character_id": 85,
+      "character_name": "LEELOO",
+      "movie_id": 5,
+      "movie_title": "the fifth element",
+      "line_text": "Vano da mechteba?! Soun domo kala chon hammas!",
+      "speaking to this character": {
+        "character_id": 78,
+        "character_name": "CORNELIUS",
+        "gender": "M",
+        "age": 3
+      }
+    },
+    {
+      "character_id": 85,
+      "character_name": "LEELOO",
+      "movie_id": 5,
+      "movie_title": "the fifth element",
+      "line_text": "What is... Make Love?",
+      "speaking to this character": {
+        "character_id": 84,
+        "character_name": "KORBEN",
+        "gender": "M",
+        "age": 1
+      }
+    },
+    {
+      "character_id": 85,
+      "character_name": "LEELOO",
+      "movie_id": 5,
+      "movie_title": "the fifth element",
+      "line_text": "What's the use of saving lives... when you see what you do with them!",
+      "speaking to this character": {
+        "character_id": 84,
+        "character_name": "KORBEN",
+        "gender": "M",
+        "age": 1
+      }
+    },
+    {
+      "character_id": 85,
+      "character_name": "LEELOO",
+      "movie_id": 5,
+      "movie_title": "the fifth element",
+      "line_text": "Why?... Why would you need me?",
+      "speaking to this character": {
+        "character_id": 84,
+        "character_name": "KORBEN",
+        "gender": "M",
+        "age": 1
+      }
+    },
+    {
+      "character_id": 85,
+      "character_name": "LEELOO",
+      "movie_id": 5,
+      "movie_title": "the fifth element",
+      "line_text": "Yes! Now it's your turn! I learned your language you have to learn mine!",
+      "speaking to this character": {
+        "character_id": 84,
+        "character_name": "KORBEN",
+        "gender": "M",
+        "age": 1
+      }
+    },
+    {
+      "character_id": 85,
+      "character_name": "LEELOO",
+      "movie_id": 5,
+      "movie_title": "the fifth element",
+      "line_text": "Yes... you know there's a lot of differences between men women.",
+      "speaking to this character": {
+        "character_id": 84,
+        "character_name": "KORBEN",
+        "gender": "M",
+        "age": 1
+      }
+    },
+    {
+      "character_id": 85,
+      "character_name": "LEELOO",
+      "movie_id": 5,
+      "movie_title": "the fifth element",
+      "line_text": "You know women normally change five times more than men.",
+      "speaking to this character": {
+        "character_id": 84,
+        "character_name": "KORBEN",
+        "gender": "M",
+        "age": 1
+      }
+    },
+    {
+      "character_id": 85,
+      "character_name": "LEELOO",
+      "movie_id": 5,
+      "movie_title": "the fifth element",
+      "line_text": "You're nothing but a... a...",
+      "speaking to this character": {
+        "character_id": 84,
+        "character_name": "KORBEN",
+        "gender": "M",
+        "age": 1
+      }
+    }
+  ]

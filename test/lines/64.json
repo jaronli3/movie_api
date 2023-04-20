@@ -1,0 +1,19 @@
+{
+    "line_id": 64,
+    "line_text": "So they tell me...",
+    "movie_title": "10 things i hate about you",
+    "characters involved": [
+      {
+        "character_id": 2,
+        "character name": "CAMERON",
+        "gender": "M",
+        "age": 3
+      },
+      {
+        "character_id": 7,
+        "character name": "MICHAEL",
+        "gender": "M",
+        "age": 5
+      }
+    ]
+  }
