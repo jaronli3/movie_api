@@ -57,8 +57,13 @@ def get_line(line_id: int):
     
     raise HTTPException(status_code=404, detail="line not found.")
 
+class char_lines_sort_options(str, Enum):
+    line_text = "line_text"
+    character_name = "character_name"
+    character_id = "character_id"
+
 @router.get("/lines_spoken_by_character/", tags=["lines"])
-def get_char_lines(character_id: int, limit: int = Query(50, ge=1, le=250), offset: int = Query(0, ge=0)):
+def get_char_lines(character_id: int, limit: int = Query(50, ge=1, le=250), offset: int = Query(0, ge=0), sort: char_lines_sort_options = char_lines_sort_options.line_text):
     """
     This endpoint returns lines spoken by the given character. For each line it returns:
     * `character_id`: the id of the character.
@@ -69,15 +74,20 @@ def get_char_lines(character_id: int, limit: int = Query(50, ge=1, le=250), offs
     json = []
     char = db.characters.get(character_id)
     if char:
-        json.append("character_id: " + str(char.id))
-        json.append("character_name: " + char.name)
-        movie = db.movies.get(char.movie_id)
-        json.append("movie_id: " + str(movie.id))
-        json.append("movie_title: " + movie.title)
+        # json.append("character_id: " + str(char.id))
+        # json.append("character_name: " + char.name)
+        # movie = db.movies.get(char.movie_id)
+        # json.append("movie_id: " + str(movie.id))
+        # json.append("movie_title: " + movie.title)
         for line_id in db.lines:
             new_line = db.lines.get(line_id)
             if new_line.c_id == char.id:
                 dictionary = {}
+                dictionary["character_id"] = char.id
+                dictionary["character_name"] = char.name
+                movie = db.movies.get(char.movie_id)
+                dictionary["movie_id"] = movie.id
+                dictionary["movie_title"] = movie.title
                 dictionary["line_text"] = new_line.line_text
                 convo = new_line.conv_id
                 conversation = db.conversations.get(convo)
@@ -94,5 +104,12 @@ def get_char_lines(character_id: int, limit: int = Query(50, ge=1, le=250), offs
                 other_char_dictionary["age"] = speaking_to_character.age
                 dictionary["speaking to this character"] = other_char_dictionary
                 json.append(dictionary)
+    
+    if sort.lower() == "line_text":
+        return sorted(json, key=operator.itemgetter('line_text'))[offset:limit + offset]
+    elif sort.lower() == "character_id":
+      return sorted(json, key=operator.itemgetter('character_id'))[offset:limit + offset]
+    elif sort.lower() == "character_name":
+      return sorted(json, key=operator.itemgetter('character_name'))[offset:limit + offset]
 
     return json[offset:limit + offset]
