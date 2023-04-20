@@ -71,8 +71,9 @@ def get_char_lines(character_id: int, limit: int = Query(50, ge=1, le=250), offs
     if char:
         for line_id in db.lines:
             new_line = db.lines.get(line_id)
-            json.append(new_line)
-            # if new_line.c_id == char.id:
+            # json.append(new_line)
+            if new_line.c_id == char.id:
+                json.append(new_line)
             #     dictionary = {}
             #     dictionary["character_id"] = char.id
             #     dictionary["character_name"] = char.name
