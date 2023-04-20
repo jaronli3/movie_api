@@ -155,8 +155,8 @@ def get_lines(line_name: str, limit: int = Query(50, ge=1, le=250), offset: int 
                 dictionary["line_text"] = new_line.line_text
                 movie = db.movies.get(new_line.movie_id)
                 dictionary["movie"] = movie.title
-                # char = db.char.get(new_line.c_id)
-                # dictionary["character"] = char.name
+                char = db.char.get(new_line.c_id)
+                dictionary["character"] = char.name
                 # # convo = new_line.conv_id
                 # conversation = db.conversations.get(convo)
                 # other_char = None
