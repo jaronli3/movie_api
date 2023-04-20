@@ -61,7 +61,7 @@ class char_lines_sort_options(str, Enum):
     line_text = "line_text"
 
 @router.get("/lines_spoken_by_character/", tags=["lines"])
-def get_char_lines(character_id: str, limit: int = Query(50, ge=1, le=250), offset: int = Query(0, ge=0)):
+def get_char_lines(character_name: str, limit: int = Query(50, ge=1, le=250), offset: int = Query(0, ge=0)):
     """
     This endpoint returns lines spoken by the given character. For each line it returns:
     * `character_id`: the id of the character.
@@ -86,7 +86,14 @@ def get_char_lines(character_id: str, limit: int = Query(50, ge=1, le=250), offs
     """
 
     json = []
-    char = db.characters.get(character_id)
+    char = None
+    for character in db.characters:
+        char1 = db.characters.get(character)
+        if character_name.lower() == char1.name.lower():
+            char = char1
+        break
+
+    # char = db.characters.get(character_id)
     if char:
         for line_id in db.lines:
             new_line = db.lines.get(line_id)
@@ -139,6 +146,7 @@ def get_lines(line_name: str, limit: int = Query(50, ge=1, le=250), offset: int 
     * `line_text` - Sort by line text alphabetically.
     * `movie` - Sort by movie alphabetically.
     * `character` - Sort by character alphabetically.
+    * `line_id` - Sort by line_id in ascending order.
 
     The `limit` and `offset` query
     parameters are used for pagination. The `limit` query parameter specifies the
