@@ -67,16 +67,27 @@ def get_char_lines(character_id: int, limit: int = Query(50, ge=1, le=250), offs
     * `character_id`: the id of the character.
     * `character_name`: Name of the character.
     * 'movie_title': The movie the character spoke in.
-    * `line`: The line the character said. 
+    * `line_text`: The line the character said. 
+    * `speaking to this character`: a dictionary of the character the given character is speaking to and
+                                    their attributes.
+
+    Each character the given character is speaking to will have the following keys in the dictionary:
+    * `character_id`: the id of the character
+    * `character_name`: the name of the character
+    * `gender`: the gender of the character
+    * `age`: the age of the character
+
+    The results will be sorted by line_text in alphabetical order.
+
+    The `limit` and `offset` query
+    parameters are used for pagination. The `limit` query parameter specifies the
+    maximum number of results to return. The `offset` query parameter specifies the
+    number of results to skip before returning results.
     """
+    
     json = []
     char = db.characters.get(character_id)
     if char:
-        # json.append("character_id: " + str(char.id))
-        # json.append("character_name: " + char.name)
-        # movie = db.movies.get(char.movie_id)
-        # json.append("movie_id: " + str(movie.id))
-        # json.append("movie_title: " + movie.title)
         for line_id in db.lines:
             new_line = db.lines.get(line_id)
             if new_line.c_id == char.id:
