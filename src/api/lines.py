@@ -155,24 +155,26 @@ def get_lines(line_name: str, limit: int = Query(50, ge=1, le=250), offset: int 
                 dictionary["line_text"] = new_line.line_text
                 movie = db.movies.get(new_line.movie_id)
                 dictionary["movie"] = movie.title
-                char = db.char.get(new_line.c_id)
+                char = db.characters.get(new_line.c_id)
                 dictionary["character"] = char.name
-                # # convo = new_line.conv_id
-                # conversation = db.conversations.get(convo)
-                # other_char = None
-                # if conversation.c1_id == char.id:
-                #     other_char = conversation.c2_id
-                #     dictionary["speaking to"] = other_char.name
-                # elif conversation.c2_id == char.id:
-                #     other_char = conversation.c1_id
-                #     dictionary["speaking to"] = other_char.name
+                convo = new_line.conv_id
+                conversation = db.conversations.get(convo)
+                other_char = None
+                if conversation.c1_id == char.id:
+                    other_char = conversation.c2_id
+                    other_char1 = db.characters.get(other_char)
+                    dictionary["speaking to"] = other_char1.name
+                elif conversation.c2_id == char.id:
+                    other_char = conversation.c1_id
+                    other_char1 = db.characters.get(other_char)
+                    dictionary["speaking to"] = other_char1.name
                 json.append(dictionary)
 
-        # if sort.lower() == "line_text":
-        #     return sorted(json, key=operator.itemgetter('line_text'))[offset:limit + offset]
-        # elif sort.lower() == "movie":
-        #     return sorted(json, key=operator.itemgetter('movie'))[offset:limit + offset]
-        # elif sort.lower() == "character":
-        #     return sorted(json, key=operator.itemgetter('character'))[offset:limit + offset]
+        if sort.lower() == "line_text":
+            return sorted(json, key=operator.itemgetter('line_text'))[offset:limit + offset]
+        elif sort.lower() == "movie":
+            return sorted(json, key=operator.itemgetter('movie'))[offset:limit + offset]
+        elif sort.lower() == "character":
+            return sorted(json, key=operator.itemgetter('character'))[offset:limit + offset]
 
         return json[offset:limit + offset]
