@@ -149,10 +149,10 @@ def get_lines(line_name: str, limit: int = Query(50, ge=1, le=250), offset: int 
         json = []
         for line in db.lines:
             new_line = db.lines.get(line)
-            if line_name.lower() in new_line.line_text:
+            if line_name.lower() in new_line.line_text.lower():
                 dictionary = {}
                 dictionary["line_id"] = new_line.id
-                # dictionary["line_text"] = new_line.line_text
+                dictionary["line_text"] = new_line.line_text
                 # movie = db.movies.get(new_line.movie_id)
                 # dictionary["movie"] = movie.title
                 # char = db.char.get(new_line.c_id)
