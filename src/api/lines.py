@@ -84,7 +84,7 @@ def get_char_lines(character_id: int, limit: int = Query(50, ge=1, le=250), offs
     maximum number of results to return. The `offset` query parameter specifies the
     number of results to skip before returning results.
     """
-    
+
     json = []
     char = db.characters.get(character_id)
     if char:
@@ -115,4 +115,36 @@ def get_char_lines(character_id: int, limit: int = Query(50, ge=1, le=250), offs
                 json.append(dictionary)
     
     return sorted(json, key=operator.itemgetter('line_text'))[offset:limit + offset]
-  
+
+class line_sort_options(str, Enum):
+    line_text = "line_text"
+    movie = "movie"
+    character = "character"
+
+@router.get("/lines/", tags=["lines"])
+def get_lines(line: str, limit: int = Query(50, ge=1, le=250), offset: int = Query(0, ge=0), sort: line_sort_options = line_sort_options.line_text):
+        """
+    This endpoint returns a list of lines. For each line it returns:
+    * `line_id`: the internal id of the line. 
+    * `line_text`: The text of the line.
+    * `movie`: The movie the line occurred in.
+    * `character`: The character who said the line.
+
+    You can filter for lines whose text contain a string by using the
+    `line` query parameter.
+
+    You can also sort the results by using the `sort` query parameter:
+    * `line_text` - Sort by line text alphabetically.
+    * `movie` - Sort by movie alphabetically.
+    * `character` - Sort by character alphabetically.
+
+    The `limit` and `offset` query
+    parameters are used for pagination. The `limit` query parameter specifies the
+    maximum number of results to return. The `offset` query parameter specifies the
+    number of results to skip before returning results.
+
+        """
+    
+        json = []
+
+        return json
