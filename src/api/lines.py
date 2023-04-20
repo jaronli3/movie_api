@@ -61,7 +61,7 @@ class char_lines_sort_options(str, Enum):
     line_text = "line_text"
 
 @router.get("/lines_spoken_by_character/", tags=["lines"])
-def get_char_lines(character_id: int, limit: int = Query(50, ge=1, le=250), offset: int = Query(0, ge=0)):
+def get_char_lines(character_id: str, limit: int = Query(50, ge=1, le=250), offset: int = Query(0, ge=0)):
     """
     This endpoint returns lines spoken by the given character. For each line it returns:
     * `character_id`: the id of the character.
@@ -157,15 +157,15 @@ def get_lines(line_name: str, limit: int = Query(50, ge=1, le=250), offset: int 
                 dictionary["movie"] = movie.title
                 char = db.char.get(new_line.c_id)
                 dictionary["character"] = char.name
-                convo = new_line.conv_id
-                conversation = db.conversations.get(convo)
-                other_char = None
-                if conversation.c1_id == char.id:
-                    other_char = conversation.c2_id
-                    dictionary["speaking to"] = other_char.name
-                elif conversation.c2_id == char.id:
-                    other_char = conversation.c1_id
-                    dictionary["speaking to"] = other_char.name
+                # convo = new_line.conv_id
+                # conversation = db.conversations.get(convo)
+                # other_char = None
+                # if conversation.c1_id == char.id:
+                #     other_char = conversation.c2_id
+                #     dictionary["speaking to"] = other_char.name
+                # elif conversation.c2_id == char.id:
+                #     other_char = conversation.c1_id
+                #     dictionary["speaking to"] = other_char.name
                 json.append(dictionary)
 
         if sort.lower() == "line_text":
