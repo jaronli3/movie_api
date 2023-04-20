@@ -75,8 +75,7 @@ def get_char_lines(character_id: int, limit: int = Query(50, ge=1, le=250), offs
             new_line = db.lines.get(line_id)
             if new_line.c_id == char.id:
                 dictionary = {}
-                # dictionary["x"] = new_line.
-                movie = db.movies.get(new_line.id)
+                movie = db.movies.get(new_line.movie_id)
                 dictionary["movie_id"] = movie.id
                 dictionary["movie_title"] = movie.title
                 dictionary["line_text"] = new_line.line_text
