@@ -120,6 +120,7 @@ class line_sort_options(str, Enum):
     line_text = "line_text"
     movie = "movie"
     character = "character"
+    line_id = "line_id"
 
 @router.get("/lines/", tags=["lines"])
 def get_lines(line_name: str, limit: int = Query(50, ge=1, le=250), offset: int = Query(0, ge=0), sort: line_sort_options = line_sort_options.line_text):
@@ -160,14 +161,14 @@ def get_lines(line_name: str, limit: int = Query(50, ge=1, le=250), offset: int 
                 convo = new_line.conv_id
                 conversation = db.conversations.get(convo)
                 other_char = None
-                # if conversation.c1_id == char.id:
-                #     other_char = conversation.c2_id
-                #     other_char1 = db.characters.get(other_char)
-                #     dictionary["speaking to"] = other_char1.name
-                # elif conversation.c2_id == char.id:
-                #     other_char = conversation.c1_id
-                #     other_char1 = db.characters.get(other_char)
-                #     dictionary["speaking to"] = other_char1.name
+                if conversation.c1_id == char.id:
+                    other_char = conversation.c2_id
+                    other_char1 = db.characters.get(other_char)
+                    dictionary["speaking to"] = other_char1.name
+                elif conversation.c2_id == char.id:
+                    other_char = conversation.c1_id
+                    other_char1 = db.characters.get(other_char)
+                    dictionary["speaking to"] = other_char1.name
                 json.append(dictionary)
 
         if sort.lower() == "line_text":
@@ -176,5 +177,7 @@ def get_lines(line_name: str, limit: int = Query(50, ge=1, le=250), offset: int 
             return sorted(json, key=operator.itemgetter('movie'))[offset:limit + offset]
         elif sort.lower() == "character":
             return sorted(json, key=operator.itemgetter('character'))[offset:limit + offset]
+        elif sort.lower() == "line_id":
+            return sorted(json, key=operator.itemgetter('line_id'))[offset:limit + offset]
 
         return json[offset:limit + offset]
