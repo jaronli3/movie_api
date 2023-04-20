@@ -71,18 +71,28 @@ def get_char_lines(character_id: int, limit: int = Query(50, ge=1, le=250), offs
     if char:
         json.append("character_id: " + str(char.id))
         json.append("character_name: " + char.name)
-        # movie = db.movies.get(new_line.movie_id)
         movie = db.movies.get(char.movie_id)
-        json.append("movie_id:" + str(movie.id))
-        # dictionary["movie_id"] = movie.id
+        json.append("movie_id: " + str(movie.id))
         json.append("movie_title: " + movie.title)
-        # dictionary["movie_title"] = movie.title
         for line_id in db.lines:
             new_line = db.lines.get(line_id)
             if new_line.c_id == char.id:
                 dictionary = {}
-                
                 dictionary["line_text"] = new_line.line_text
+                convo = new_line.conv_id
+                conversation = db.conversations.get(convo)
+                other_char = None
+                if conversation.c1_id == char.id:
+                    other_char = conversation.c2_id
+                elif conversation.c2_id == char.id:
+                    other_char = conversation.c1_id
+                speaking_to_character = db.characters.get(other_char)
+                other_char_dictionary = {}
+                other_char_dictionary["character_id"] = speaking_to_character.id
+                other_char_dictionary["character_name"] = speaking_to_character.name
+                other_char_dictionary["gender"] = speaking_to_character.gender
+                other_char_dictionary["age"] = speaking_to_character.age
+                dictionary["speaking to this character"] = other_char_dictionary
                 json.append(dictionary)
 
     return json
