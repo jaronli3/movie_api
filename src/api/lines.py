@@ -57,9 +57,6 @@ def get_line(line_id: int):
     
     raise HTTPException(status_code=404, detail="line not found.")
 
-class line_spoken_by_char_sort_options(str, Enum):
-    line_text = "line_text"
-
 @router.get("/lines_spoken_by_character/", tags=["lines"])
 def get_char_lines(character_id: int, limit: int = Query(50, ge=1, le=250), offset: int = Query(0, ge=0)):
     """
@@ -97,12 +94,5 @@ def get_char_lines(character_id: int, limit: int = Query(50, ge=1, le=250), offs
                 other_char_dictionary["age"] = speaking_to_character.age
                 dictionary["speaking to this character"] = other_char_dictionary
                 json.append(dictionary)
-    
-    # if sort.lower() == "line_text":
-    return sorted(json, key=operator.itemgetter('line_text'))[offset:limit + offset]
-    # elif sort.lower() == "character_id":
-    #   return sorted(json, key=operator.itemgetter('character_id'))[offset:limit + offset]
-    # elif sort.lower() == "character_name":
-    #   return sorted(json, key=operator.itemgetter('character_name'), reverse = True)[offset:limit + offset]
 
-    # return json[offset:limit + offset]
+    return json[offset:limit + offset]
