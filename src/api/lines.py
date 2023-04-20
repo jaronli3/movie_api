@@ -59,11 +59,9 @@ def get_line(line_id: int):
 
 class char_lines_sort_options(str, Enum):
     line_text = "line_text"
-    character_name = "character_name"
-    character_id = "character_id"
 
 @router.get("/lines_spoken_by_character/", tags=["lines"])
-def get_char_lines(character_id: int, limit: int = Query(50, ge=1, le=250), offset: int = Query(0, ge=0), sort: char_lines_sort_options = char_lines_sort_options.line_text):
+def get_char_lines(character_id: int, limit: int = Query(50, ge=1, le=250), offset: int = Query(0, ge=0)):
     """
     This endpoint returns lines spoken by the given character. For each line it returns:
     * `character_id`: the id of the character.
@@ -105,11 +103,5 @@ def get_char_lines(character_id: int, limit: int = Query(50, ge=1, le=250), offs
                 dictionary["speaking to this character"] = other_char_dictionary
                 json.append(dictionary)
     
-    if sort.lower() == "line_text":
-        return sorted(json, key=operator.itemgetter('line_text'))[offset:limit + offset]
-    elif sort.lower() == "character_id":
-      return sorted(json, key=operator.itemgetter('character_id'))[offset:limit + offset]
-    elif sort.lower() == "character_name":
-      return sorted(json, key=operator.itemgetter('character_name'))[offset:limit + offset]
-
-    return json[offset:limit + offset]
+    return sorted(json, key=operator.itemgetter('line_text'))[offset:limit + offset]
+  
