@@ -160,14 +160,14 @@ def get_lines(line_name: str, limit: int = Query(50, ge=1, le=250), offset: int 
                 convo = new_line.conv_id
                 conversation = db.conversations.get(convo)
                 other_char = None
-                if conversation.c1_id == char.id:
-                    other_char = conversation.c2_id
-                    other_char1 = db.characters.get(other_char)
-                    dictionary["speaking to"] = other_char1.name
-                elif conversation.c2_id == char.id:
-                    other_char = conversation.c1_id
-                    other_char1 = db.characters.get(other_char)
-                    dictionary["speaking to"] = other_char1.name
+                # if conversation.c1_id == char.id:
+                #     other_char = conversation.c2_id
+                #     other_char1 = db.characters.get(other_char)
+                #     dictionary["speaking to"] = other_char1.name
+                # elif conversation.c2_id == char.id:
+                #     other_char = conversation.c1_id
+                #     other_char1 = db.characters.get(other_char)
+                #     dictionary["speaking to"] = other_char1.name
                 json.append(dictionary)
 
         if sort.lower() == "line_text":
