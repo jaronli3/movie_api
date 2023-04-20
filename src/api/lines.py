@@ -152,12 +152,12 @@ def get_lines(line_name: str, limit: int = Query(50, ge=1, le=250), offset: int 
             if line_name.lower() in new_line.line_text:
                 dictionary = {}
                 dictionary["line_id"] = new_line.id
-                dictionary["line_text"] = new_line.line_text
-                movie = db.movies.get(new_line.movie_id)
-                dictionary["movie"] = movie.title
-                char = db.char.get(new_line.c_id)
-                dictionary["character"] = char.name
-                # convo = new_line.conv_id
+                # dictionary["line_text"] = new_line.line_text
+                # movie = db.movies.get(new_line.movie_id)
+                # dictionary["movie"] = movie.title
+                # char = db.char.get(new_line.c_id)
+                # dictionary["character"] = char.name
+                # # convo = new_line.conv_id
                 # conversation = db.conversations.get(convo)
                 # other_char = None
                 # if conversation.c1_id == char.id:
@@ -168,11 +168,11 @@ def get_lines(line_name: str, limit: int = Query(50, ge=1, le=250), offset: int 
                 #     dictionary["speaking to"] = other_char.name
                 json.append(dictionary)
 
-        if sort.lower() == "line_text":
-            return sorted(json, key=operator.itemgetter('line_text'))[offset:limit + offset]
-        elif sort.lower() == "movie":
-            return sorted(json, key=operator.itemgetter('movie'))[offset:limit + offset]
-        elif sort.lower() == "character":
-            return sorted(json, key=operator.itemgetter('character'))[offset:limit + offset]
+        # if sort.lower() == "line_text":
+        #     return sorted(json, key=operator.itemgetter('line_text'))[offset:limit + offset]
+        # elif sort.lower() == "movie":
+        #     return sorted(json, key=operator.itemgetter('movie'))[offset:limit + offset]
+        # elif sort.lower() == "character":
+        #     return sorted(json, key=operator.itemgetter('character'))[offset:limit + offset]
 
         return json[offset:limit + offset]
