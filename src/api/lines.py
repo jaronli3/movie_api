@@ -92,7 +92,7 @@ def get_char_lines(character_name: str, limit: int = Query(50, ge=1, le=250), of
         if character_name.lower() == char1.name.lower():
             char = char1
             break
-    # char = db.characters.get(character_id)
+    
     if char:
         for line_id in db.lines:
             new_line = db.lines.get(line_id)
