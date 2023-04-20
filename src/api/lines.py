@@ -122,13 +122,14 @@ class line_sort_options(str, Enum):
     character = "character"
 
 @router.get("/lines/", tags=["lines"])
-def get_lines(line: str, limit: int = Query(50, ge=1, le=250), offset: int = Query(0, ge=0), sort: line_sort_options = line_sort_options.line_text):
+def get_lines(line_name: str, limit: int = Query(50, ge=1, le=250), offset: int = Query(0, ge=0), sort: line_sort_options = line_sort_options.line_text):
         """
     This endpoint returns a list of lines. For each line it returns:
     * `line_id`: the internal id of the line. 
     * `line_text`: The text of the line.
     * `movie`: The movie the line occurred in.
     * `character`: The character who said the line.
+    * `speaking to`: The character who the speaker is speaking to.
 
     You can filter for lines whose text contain a string by using the
     `line` query parameter.
@@ -146,5 +147,32 @@ def get_lines(line: str, limit: int = Query(50, ge=1, le=250), offset: int = Que
         """
     
         json = []
+        for line in db.lines:
+            new_line = db.lines.get(line)
+            if line_name.lower() in new_line.line_text:
+                dictionary = {}
+                dictionary["line_id"] = new_line.id
+                dictionary["line_text"] = new_line.line_text
+                movie = db.movies.get(new_line.movie_id)
+                dictionary["movie"] = movie.title
+                char = db.char.get(new_line.c_id)
+                dictionary["character"] = char.name
+                convo = new_line.conv_id
+                conversation = db.conversations.get(convo)
+                other_char = None
+                if conversation.c1_id == char.id:
+                    other_char = conversation.c2_id
+                    dictionary["speaking to"] = other_char.name
+                elif conversation.c2_id == char.id:
+                    other_char = conversation.c1_id
+                    dictionary["speaking to"] = other_char.name
+                json.append(dictionary)
 
-        return json
+        if sort.lower() == "line_text":
+            return sorted(json, key=operator.itemgetter('line_text'))[offset:limit + offset]
+        elif sort.lower() == "movie":
+            return sorted(json, key=operator.itemgetter('movie'))[offset:limit + offset]
+        elif sort.lower() == "character":
+            return sorted(json, key=operator.itemgetter('character'))[offset:limit + offset]
+
+        return json[offset:limit + offset]
