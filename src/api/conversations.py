@@ -45,6 +45,8 @@ def add_conversation(movie_id: int, conversation: ConversationJson):
     
     # db.logs.append({"post_call_time": datetime.now(), "movie_id_added_to": movie_id})
     # db.upload_new_log()
+    
+    # ensures the endpoint are part of the movie, chars are not the same, and lines match chars in convo
     if conversation.character_1_id == conversation.character_2_id:
         raise HTTPException(status_code=404, detail="conversation never existed.")
 
@@ -71,8 +73,11 @@ def add_conversation(movie_id: int, conversation: ConversationJson):
     for line in conversation.lines:
         if line.character_id != conversation.character_1_id or line.character_id != conversation.character_2_id:
             raise HTTPException(status_code=404, detail="conversation never existed.")
+
     
     
+    
+
 
     
 
