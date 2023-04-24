@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from src.api import characters, movies, lines, pkg_util
+from src.api import characters, movies, lines, pkg_util, conversations
 
 
 description = """
