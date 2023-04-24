@@ -41,7 +41,39 @@ def add_conversation(movie_id: int, conversation: ConversationJson):
     # TODO: Remove the following two lines. This is just a placeholder to show
     # how you could implement persistent storage.
 
-    print(conversation)
-    db.logs.append({"post_call_time": datetime.now(), "movie_id_added_to": movie_id})
-    db.upload_new_log()
+    # print(conversation)
+    
+    # db.logs.append({"post_call_time": datetime.now(), "movie_id_added_to": movie_id})
+    # db.upload_new_log()
+    if conversation.character_1_id == conversation.character_2_id:
+        raise HTTPException(status_code=404, detail="conversation never existed.")
 
+    char1_found = None
+    char2_found = None
+    for conversation_id in db.convos:
+        convo = db.convos.get(conversation_id)
+        if convo.movie_id == movie_id:
+            if convo.c1_id == conversation.character_1_id:
+                char1_found = True
+            elif convo.c2_id == conversation.character_2_id:
+                char2_found = True
+            elif convo.c1_id == conversation.character_2_id:
+                char2_found = True
+            elif convo.c2_id == conversation.character_1_id:
+                char1_found = True
+            
+            if char1_found == True and char2_found == True:
+                break
+    
+    if char1_found != True or char2_found != True:
+        raise HTTPException(status_code=404, detail="conversation never existed.")
+    
+    for line in conversation.lines:
+        if line.character_id != conversation.character_1_id or line.character_id != conversation.character_2_id:
+            raise HTTPException(status_code=404, detail="conversation never existed.")
+    
+    
+
+    
+
+ 
