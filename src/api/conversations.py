@@ -38,6 +38,14 @@ def add_conversation(movie_id: int, conversation: ConversationJson):
     The endpoint returns the id of the resulting conversation that was created.
     """
     
+    #EDGE CASES: One case where my code won't work in is if there are multiple calls made at the 
+    #same time as data could potentially get overwritten or lost. Something to consider 
+    # as well is the speed of the service if multiple calls are made at the same time and how to best 
+    #optimize it to ensure the service is not slow and also for the service to not crash due to multiple
+    #simultaneous calls. One thing I also couldn't figure out was once a conversation was added, the 
+    #service was still reading from the original database and didn't take the new conversations and lines
+    #into account.
+
     if conversation.character_1_id == conversation.character_2_id:
         raise HTTPException(status_code=400, detail="character talking to themselves.")
 
