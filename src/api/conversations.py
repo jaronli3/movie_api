@@ -37,16 +37,7 @@ def add_conversation(movie_id: int, conversation: ConversationJson):
 
     The endpoint returns the id of the resulting conversation that was created.
     """
-
-    # TODO: Remove the following two lines. This is just a placeholder to show
-    # how you could implement persistent storage.
-
-    # print(conversation)
     
-    # db.logs.append({"post_call_time": datetime.now(), "movie_id_added_to": movie_id})
-    # db.upload_new_log()
-    
-    # ensures the endpoint are part of the movie, chars are not the same, and lines match chars in convo
     if conversation.character_1_id == conversation.character_2_id:
         raise HTTPException(status_code=400, detail="character talking to themselves.")
 

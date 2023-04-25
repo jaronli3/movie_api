@@ -6,7 +6,6 @@ import json
 
 client = TestClient(app)
 
-
 def test_get_line():
     response = client.get("/lines/49")
     assert response.status_code == 200
