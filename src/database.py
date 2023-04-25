@@ -52,7 +52,77 @@ sess = supabase.auth.get_session()
 
 
 # END PLACEHOLDER CODE
+def read_new_logs():
+    movie_convo_log = []
+    log_csv = (
+        supabase.storage.from_("movie-api")
+        .download("movie_conversations_log.csv")
+        .decode("utf-8")
+    )
+    for row in csv.DictReader(io.StringIO(log_csv), skipinitialspace=True):
+        movie_convo_log.append(row)
+    return movie_convo_log
 
+def read_new_convos():
+    conversation_lst = []
+    convos_csv = (
+        supabase.storage.from_("movie-api")
+        .download("conversations.csv")
+        .decode("utf-8")
+    )
+    for row in csv.DictReader(io.StringIO(convos_csv), skipinitialspace=True):
+        conversation_lst.append(row)
+    return conversation_lst
+
+def read_new_lines():
+    line_lst = []
+    lines_csv = (
+        supabase.storage.from_("movie-api")
+        .download("lines.csv")
+        .decode("utf-8")
+    )
+    for row in csv.DictReader(io.StringIO(lines_csv), skipinitialspace=True):
+        line_lst.append(row)
+    return line_lst
+
+def upload_new_conversations(new_conversations):
+    output = io.StringIO()
+    csv_writer = csv.DictWriter(
+        output, fieldnames=["conversation_id", "character1_id", "character2_id", "movie_id"]
+    )
+    csv_writer.writeheader()
+    csv_writer.writerows(new_conversations)
+    supabase.storage.from_("movie-api").upload(
+        "conversations.csv",
+        bytes(output.getvalue(), "utf-8"),
+        {"x-upsert": "true"},
+    )
+
+def upload_new_lines(new_line):
+    output = io.StringIO()
+    csv_writer = csv.DictWriter(
+        output, fieldnames=["line_id", "character_id", "movie_id", "conversation_id", "line_sort", "line_text"]
+    )
+    csv_writer.writeheader()
+    csv_writer.writerows(new_line)
+    supabase.storage.from_("movie-api").upload(
+        "lines.csv",
+        bytes(output.getvalue(), "utf-8"),
+        {"x-upsert": "true"},
+    )
+
+def upload_new_log(new_log):
+    output = io.StringIO()
+    csv_writer = csv.DictWriter(
+        output, fieldnames=["post_call_time", "movie_id_added_to"]
+    )
+    csv_writer.writeheader()
+    csv_writer.writerows(new_log)
+    supabase.storage.from_("movie-api").upload(
+        "movie_conversations_log.csv",
+        bytes(output.getvalue(), "utf-8"),
+        {"x-upsert": "true"},
+    )
 
 def try_parse(type, val):
     try:
