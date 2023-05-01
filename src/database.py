@@ -1,9 +1,11 @@
-import csv
-from src.datatypes import Character, Movie, Conversation, Line
+# import csv
+# from src.datatypes import Character, Movie, Conversation, Line
 import os
 import io
 from supabase import Client, create_client
 import dotenv
+from sqlalchemy import create_engine
+import sqlalchemy
 
 # DO NOT CHANGE THIS TO BE HARDCODED. ONLY PULL FROM ENVIRONMENT VARIABLES.
 dotenv.load_dotenv()
@@ -19,161 +21,175 @@ supabase: Client = create_client(supabase_url, supabase_api_key)
 
 sess = supabase.auth.get_session()
 
-def read_new_logs():
-    movie_convo_log = []
-    log_csv = (
-        supabase.storage.from_("movie-api")
-        .download("movie_conversations_log.csv")
-        .decode("utf-8")
-    )
-    for row in csv.DictReader(io.StringIO(log_csv), skipinitialspace=True):
-        movie_convo_log.append(row)
-    return movie_convo_log
+def database_connection_url():
+    dotenv.load_dotenv()
+    DB_USER: str = os.environ.get("POSTGRES_USER")
+    DB_PASSWD = os.environ.get("POSTGRES_PASSWORD")
+    DB_SERVER: str = os.environ.get("POSTGRES_SERVER")
+    DB_PORT: str = os.environ.get("POSTGRES_PORT")
+    DB_NAME: str = os.environ.get("POSTGRES_DB")
+    return f"postgresql://{DB_USER}:{DB_PASSWD}@{DB_SERVER}:{DB_PORT}/{DB_NAME}"
 
-def read_new_convos():
-    conversation_lst = []
-    convos_csv = (
-        supabase.storage.from_("movie-api")
-        .download("conversations.csv")
-        .decode("utf-8")
-    )
-    for row in csv.DictReader(io.StringIO(convos_csv), skipinitialspace=True):
-        conversation_lst.append(row)
-    return conversation_lst
+engine = sqlalchemy.create_engine(database_connection_url())
 
-def read_new_lines():
-    line_lst = []
-    lines_csv = (
-        supabase.storage.from_("movie-api")
-        .download("lines.csv")
-        .decode("utf-8")
-    )
-    for row in csv.DictReader(io.StringIO(lines_csv), skipinitialspace=True):
-        line_lst.append(row)
-    return line_lst
 
-def upload_new_conversations(new_conversations):
-    output = io.StringIO()
-    csv_writer = csv.DictWriter(
-        output, fieldnames=["conversation_id", "character1_id", "character2_id", "movie_id"]
-    )
-    csv_writer.writeheader()
-    csv_writer.writerows(new_conversations)
-    supabase.storage.from_("movie-api").upload(
-        "conversations.csv",
-        bytes(output.getvalue(), "utf-8"),
-        {"x-upsert": "true"},
-    )
+# conn = engine.connect()
 
-def upload_new_lines(new_line):
-    output = io.StringIO()
-    csv_writer = csv.DictWriter(
-        output, fieldnames=["line_id", "character_id", "movie_id", "conversation_id", "line_sort", "line_text"]
-    )
-    csv_writer.writeheader()
-    csv_writer.writerows(new_line)
-    supabase.storage.from_("movie-api").upload(
-        "lines.csv",
-        bytes(output.getvalue(), "utf-8"),
-        {"x-upsert": "true"},
-    )
+# def read_new_logs():
+#     movie_convo_log = []
+#     log_csv = (
+#         supabase.storage.from_("movie-api")
+#         .download("movie_conversations_log.csv")
+#         .decode("utf-8")
+#     )
+#     for row in csv.DictReader(io.StringIO(log_csv), skipinitialspace=True):
+#         movie_convo_log.append(row)
+#     return movie_convo_log
 
-def upload_new_log(new_log):
-    output = io.StringIO()
-    csv_writer = csv.DictWriter(
-        output, fieldnames=["post_call_time", "movie_id_added_to"]
-    )
-    csv_writer.writeheader()
-    csv_writer.writerows(new_log)
-    supabase.storage.from_("movie-api").upload(
-        "movie_conversations_log.csv",
-        bytes(output.getvalue(), "utf-8"),
-        {"x-upsert": "true"},
-    )
+# def read_new_convos():
+#     conversation_lst = []
+#     convos_csv = (
+#         supabase.storage.from_("movie-api")
+#         .download("conversations.csv")
+#         .decode("utf-8")
+#     )
+#     for row in csv.DictReader(io.StringIO(convos_csv), skipinitialspace=True):
+#         conversation_lst.append(row)
+#     return conversation_lst
 
-def try_parse(type, val):
-    try:
-        return type(val)
-    except ValueError:
-        return None
+# def read_new_lines():
+#     line_lst = []
+#     lines_csv = (
+#         supabase.storage.from_("movie-api")
+#         .download("lines.csv")
+#         .decode("utf-8")
+#     )
+#     for row in csv.DictReader(io.StringIO(lines_csv), skipinitialspace=True):
+#         line_lst.append(row)
+#     return line_lst
 
-movies_csv_file = (
-    supabase.storage.from_("movie-api")
-    .download("movies.csv")
-    .decode("utf-8")
-)
+# def upload_new_conversations(new_conversations):
+#     output = io.StringIO()
+#     csv_writer = csv.DictWriter(
+#         output, fieldnames=["conversation_id", "character1_id", "character2_id", "movie_id"]
+#     )
+#     csv_writer.writeheader()
+#     csv_writer.writerows(new_conversations)
+#     supabase.storage.from_("movie-api").upload(
+#         "conversations.csv",
+#         bytes(output.getvalue(), "utf-8"),
+#         {"x-upsert": "true"},
+#     )
 
-movies = {
-    try_parse(int, row["movie_id"]): Movie(
-        try_parse(int, row["movie_id"]),
-        row["title"] or None,
-        row["year"] or None,
-        try_parse(float, row["imdb_rating"]),
-        try_parse(int, row["imdb_votes"]),
-        row["raw_script_url"] or None,
-    )
-    for row in csv.DictReader(io.StringIO(movies_csv_file), skipinitialspace=True)
-}
+# def upload_new_lines(new_line):
+#     output = io.StringIO()
+#     csv_writer = csv.DictWriter(
+#         output, fieldnames=["line_id", "character_id", "movie_id", "conversation_id", "line_sort", "line_text"]
+#     )
+#     csv_writer.writeheader()
+#     csv_writer.writerows(new_line)
+#     supabase.storage.from_("movie-api").upload(
+#         "lines.csv",
+#         bytes(output.getvalue(), "utf-8"),
+#         {"x-upsert": "true"},
+#     )
+
+# def upload_new_log(new_log):
+#     output = io.StringIO()
+#     csv_writer = csv.DictWriter(
+#         output, fieldnames=["post_call_time", "movie_id_added_to"]
+#     )
+#     csv_writer.writeheader()
+#     csv_writer.writerows(new_log)
+#     supabase.storage.from_("movie-api").upload(
+#         "movie_conversations_log.csv",
+#         bytes(output.getvalue(), "utf-8"),
+#         {"x-upsert": "true"},
+#     )
+
+# def try_parse(type, val):
+#     try:
+#         return type(val)
+#     except ValueError:
+#         return None
+
+# movies_csv_file = (
+#     supabase.storage.from_("movie-api")
+#     .download("movies.csv")
+#     .decode("utf-8")
+# )
+
+# movies = {
+#     try_parse(int, row["movie_id"]): Movie(
+#         try_parse(int, row["movie_id"]),
+#         row["title"] or None,
+#         row["year"] or None,
+#         try_parse(float, row["imdb_rating"]),
+#         try_parse(int, row["imdb_votes"]),
+#         row["raw_script_url"] or None,
+#     )
+#     for row in csv.DictReader(io.StringIO(movies_csv_file), skipinitialspace=True)
+# }
     
-characters_csv_file = (
-    supabase.storage.from_("movie-api")
-    .download("characters.csv")
-    .decode("utf-8")
-)
+# characters_csv_file = (
+#     supabase.storage.from_("movie-api")
+#     .download("characters.csv")
+#     .decode("utf-8")
+# )
 
 
-characters = {}
-for row in csv.DictReader(io.StringIO(characters_csv_file), skipinitialspace=True):
-    char = Character(
-        try_parse(int, row["character_id"]),
-        row["name"] or None,
-        try_parse(int, row["movie_id"]),
-        row["gender"] or None,
-        try_parse(int, row["age"]),
-        0,
-    )
-    characters[char.id] = char
+# characters = {}
+# for row in csv.DictReader(io.StringIO(characters_csv_file), skipinitialspace=True):
+#     char = Character(
+#         try_parse(int, row["character_id"]),
+#         row["name"] or None,
+#         try_parse(int, row["movie_id"]),
+#         row["gender"] or None,
+#         try_parse(int, row["age"]),
+#         0,
+#     )
+#     characters[char.id] = char
 
-conversations_csv_file = (
-    supabase.storage.from_("movie-api")
-    .download("conversations.csv")
-    .decode("utf-8")
-)
-
-
-conversations = {}
-for row in csv.DictReader(io.StringIO(conversations_csv_file), skipinitialspace=True):
-    conv = Conversation(
-        try_parse(int, row["conversation_id"]),
-        try_parse(int, row["character1_id"]),
-        try_parse(int, row["character2_id"]),
-        try_parse(int, row["movie_id"]),
-        0,
-    )
-    conversations[conv.id] = conv
-
-lines_csv_file = (
-    supabase.storage.from_("movie-api")
-    .download("lines.csv")
-    .decode("utf-8")
-)
+# conversations_csv_file = (
+#     supabase.storage.from_("movie-api")
+#     .download("conversations.csv")
+#     .decode("utf-8")
+# )
 
 
-lines = {}
-for row in csv.DictReader(io.StringIO(lines_csv_file), skipinitialspace=True):
-    line = Line(
-        try_parse(int, row["line_id"]),
-        try_parse(int, row["character_id"]),
-        try_parse(int, row["movie_id"]),
-        try_parse(int, row["conversation_id"]),
-        try_parse(int, row["line_sort"]),
-        row["line_text"],
-    )
-    lines[line.id] = line
-    c = characters.get(line.c_id)
-    if c:
-        c.num_lines += 1
+# conversations = {}
+# for row in csv.DictReader(io.StringIO(conversations_csv_file), skipinitialspace=True):
+#     conv = Conversation(
+#         try_parse(int, row["conversation_id"]),
+#         try_parse(int, row["character1_id"]),
+#         try_parse(int, row["character2_id"]),
+#         try_parse(int, row["movie_id"]),
+#         0,
+#     )
+#     conversations[conv.id] = conv
 
-    conv = conversations.get(line.conv_id)
-    if conv:
-        conv.num_lines += 1
+# lines_csv_file = (
+#     supabase.storage.from_("movie-api")
+#     .download("lines.csv")
+#     .decode("utf-8")
+# )
+
+
+# lines = {}
+# for row in csv.DictReader(io.StringIO(lines_csv_file), skipinitialspace=True):
+#     line = Line(
+#         try_parse(int, row["line_id"]),
+#         try_parse(int, row["character_id"]),
+#         try_parse(int, row["movie_id"]),
+#         try_parse(int, row["conversation_id"]),
+#         try_parse(int, row["line_sort"]),
+#         row["line_text"],
+#     )
+#     lines[line.id] = line
+#     c = characters.get(line.c_id)
+#     if c:
+#         c.num_lines += 1
+
+#     conv = conversations.get(line.conv_id)
+#     if conv:
+#         conv.num_lines += 1
