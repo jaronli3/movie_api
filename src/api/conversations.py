@@ -20,6 +20,7 @@ class ConversationJson(BaseModel):
 
 router = APIRouter()
 
+# conversations = sqlalchemy.Table("conversations", db.metadata_obj, autoload_with=db.engine)
 
 @router.post("/movies/{movie_id}/conversations/", tags=["movies"])
 def add_conversation(movie_id: int, conversation: ConversationJson):

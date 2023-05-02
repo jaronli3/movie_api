@@ -7,6 +7,8 @@ import operator
 
 router = APIRouter()
 
+# lines = sqlalchemy.Table("lines", db.metadata_obj, autoload_with=db.engine)
+
 @router.get("/lines/{line_id}", tags=["lines"])
 def get_line(line_id: int):
     """

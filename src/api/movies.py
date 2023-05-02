@@ -7,6 +7,7 @@ import operator
 
 router = APIRouter()
 
+# movies = sqlalchemy.Table("movies", db.metadata_obj, autoload_with=db.engine)
 
 @router.get("/movies/{movie_id}", tags=["movies"])
 def get_movie(movie_id: int):
@@ -115,33 +116,3 @@ def list_movies(
             )
 
     return json
-    # if name:
-
-    #     def filter_fn(m):
-    #         return m.title and name.lower() in m.title
-
-    # else:
-
-    #     def filter_fn(_):
-    #         return True
-
-    # items = list(filter(filter_fn, db.movies.values()))
-    # if sort == movie_sort_options.movie_title:
-    #     items.sort(key=lambda m: m.title)
-    # elif sort == movie_sort_options.year:
-    #     items.sort(key=lambda m: m.year)
-    # elif sort == movie_sort_options.rating:
-    #     items.sort(key=lambda m: m.imdb_rating, reverse=True)
-
-    # json = (
-    #     {
-    #         "movie_id": m.id,
-    #         "movie_title": m.title,
-    #         "year": m.year,
-    #         "imdb_rating": m.imdb_rating,
-    #         "imdb_votes": m.imdb_votes,
-    #     }
-    #     for m in items[offset : offset + limit]
-    # )
-
-    # return json
