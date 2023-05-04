@@ -4,10 +4,22 @@ from src import database as db
 from fastapi.params import Query
 
 import operator
+import sqlalchemy
 
 router = APIRouter()
 
-# movies = sqlalchemy.Table("movies", db.metadata_obj, autoload_with=db.engine)
+def get_char_num_lines_tot():
+  lines = sqlalchemy.select(db.lines.c.character_id)
+  with db.engine.connect() as conn:
+    dictionary = {}
+    lines1 = conn.execute(lines).fetchall()
+    for x in lines1:
+      if x.character_id not in dictionary:
+        dictionary[x.character_id] = 1
+      elif x.character_id in dictionary:
+        dictionary[x.character_id] +=1
+  
+  return dictionary
 
 @router.get("/movies/{movie_id}", tags=["movies"])
 def get_movie(movie_id: int):
@@ -23,23 +35,52 @@ def get_movie(movie_id: int):
     * `character`: The name of the character.
     * `num_lines`: The number of lines the character has in the movie.
     """
-    movie = db.movies.get(movie_id)
-    if movie:
-        top_chars = [
-            {"character_id": c.id, "character": c.name, "num_lines": c.num_lines}
-            for c in db.characters.values()
-            if c.movie_id == movie_id
-        ]
-        top_chars.sort(key=lambda c: c["num_lines"], reverse=True)
 
-        result = {
-            "movie_id": movie_id,
-            "title": movie.title,
-            "top_characters": top_chars[0:5],
-        }
-        return result
+    lines_dictionary = get_char_num_lines_tot()
+    num = sqlalchemy.case(lines_dictionary, value = db.chars.c.character_id,  else_ = 0).label('num')
+    order_by = sqlalchemy.desc(num)
+    mov = sqlalchemy.select(db.movies.c.title).where(db.movies.c.movie_id == movie_id)
+    chars = (sqlalchemy.select(db.chars.c.character_id, db.chars.c.name).where(db.chars.c.movie_id == movie_id).limit(5).order_by(order_by, db.chars.c.character_id))
+    
 
-    raise HTTPException(status_code=404, detail="movie not found.")
+    with db.engine.connect() as conn:
+        movies = conn.execute(mov).fetchone()
+        if movies:
+            characters = conn.execute(chars)
+            json = {"movie_id": movie_id, "title": movies.title}
+            lst = []
+            for chars in characters:
+                new_json = {
+                    "character_id": chars.character_id,
+                    "character": chars.name,
+                    "num_lines": lines_dictionary[chars.character_id]
+                }
+                lst.append(new_json)
+            json["top_characters"] = lst
+
+            return json
+        raise HTTPException(status_code=404, detail="movie not found.")
+
+
+
+
+    # movie = db.movies.get(movie_id)
+    # if movie:
+    #     top_chars = [
+    #         {"character_id": c.id, "character": c.name, "num_lines": c.num_lines}
+    #         for c in db.characters.values()
+    #         if c.movie_id == movie_id
+    #     ]
+    #     top_chars.sort(key=lambda c: c["num_lines"], reverse=True)
+
+    #     result = {
+    #         "movie_id": movie_id,
+    #         "title": movie.title,
+    #         "top_characters": top_chars[0:5],
+    #     }
+    #     return result
+
+    # raise HTTPException(status_code=404, detail="movie not found.")
 
 
 class movie_sort_options(str, Enum):

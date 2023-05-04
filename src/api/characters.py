@@ -10,6 +10,19 @@ import sqlalchemy
 
 router = APIRouter()
 
+def get_char_num_lines_tot():
+  lines = sqlalchemy.select(db.lines.c.character_id)
+  with db.engine.connect() as conn:
+    dictionary = {}
+    lines1 = conn.execute(lines).fetchall()
+    for x in lines1:
+      if x.character_id not in dictionary:
+        dictionary[x.character_id] = 1
+      elif x.character_id in dictionary:
+        dictionary[x.character_id] +=1
+  
+  return dictionary
+
 def get_top_conv(conn, char_id: int):
     conversations = sqlalchemy.select(db.convos.c.conversation_id,
                     db.convos.c.character1_id, 
@@ -22,6 +35,7 @@ def get_top_conv(conn, char_id: int):
     filtered_lines_table = conn.execute(lines).fetchall()
 
     line_counts = {}
+
     line_counts2 = {}
     lst = []
 
@@ -35,7 +49,7 @@ def get_top_conv(conn, char_id: int):
     #gets number of lines for each other_char
     for convo in filtered_conversations_table:
       if char_id == convo.character1_id:
-        other_char = convo.character2_id
+        other_char = convo.character2_id     
         if other_char in line_counts2:
           line_counts2[other_char] += line_counts[convo.conversation_id]
         elif other_char not in line_counts2:
@@ -143,53 +157,40 @@ def list_characters(
     maximum number of results to return. The `offset` query parameter specifies the
     number of results to skip before returning results.
     """
+    
+    lines_dictionary = get_char_num_lines_tot()
 
     if sort is character_sort_options.character:
         order_by = db.chars.c.name
     elif sort is character_sort_options.movie:
         order_by = db.movies.c.title
-    elif sort is movie_sort_options.rating:
-        # lines = sqlalchemy.select(db.lines.c.character_id)
-        # filtered_lines_table = conn.execute(lines).fetchall()
-        # lines_dict = {}
-        # for line in filtered_lines_table:
-        #   if line.character_id not in lines_dict:
-        #     lines_dict[line.character_id] = 1
-        #   elif line.character_id in lines_dict:
-        #     lines_dict[line.character_id] += 1
-        # order_by = sqlalchemy.desc(lines_dict.values())
-        ...
+    elif sort is character_sort_options.number_of_lines:
+        num = sqlalchemy.case(lines_dictionary, value = db.chars.c.character_id,  else_ = 0).label('num')
+        order_by = sqlalchemy.desc(num)
     else:
         assert False
 
     stmt = (
-        sqlalchemy.select(
-            db.chars.c.character_id,
-            db.chars.c.name,
-            db.chars.c.movie_id,
-        ).select_from(db.chars).join()
-
+        sqlalchemy.select(db.chars.c.character_id, db.chars.c.name, db.chars.c.movie_id).select_from(db.chars.join(db.movies, db.movies.c.movie_id == db.chars.c.movie_id))
         .limit(limit)
         .offset(offset)
-        .order_by(order_by, db.movies.c.movie_id)
+        .order_by(order_by, db.chars.c.character_id)
     )
+
 
     # filter only if name parameter is passed
     if name != "":
-        stmt = stmt.where(db.movies.c.title.ilike(f"%{name}%"))
+        stmt = stmt.where(db.chars.c.name.ilike(f"%{name}%"))
 
     with db.engine.connect() as conn:
         result = conn.execute(stmt)
-        json = []
+        lst = []
         for row in result:
-            json.append(
-                {
-                    "movie_id": row.movie_id,
-                    "movie_title": row.title,
-                    "year": row.year,
-                    "imdb_rating": row.imdb_rating,
-                    "imdb_votes": row.imdb_votes,
-                }
-            )
+          curr_movie_id = row.movie_id
+          stmt1 = sqlalchemy.select(db.movies.c.title).where(curr_movie_id == db.movies.c.movie_id)
+          movie_title_table = conn.execute(stmt1).fetchone()
+          num_lines = lines_dictionary[row.character_id]
+          dictionary = {"character_id": row.character_id, "character": row.name, "movie": movie_title_table.title, "number_of_lines": num_lines}
+          lst.append(dictionary)
 
-    return json
+    return lst

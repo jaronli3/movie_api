@@ -4,10 +4,9 @@ from src import database as db
 from fastapi.params import Query
 
 import operator
+import sqlalchemy
 
 router = APIRouter()
-
-# lines = sqlalchemy.Table("lines", db.metadata_obj, autoload_with=db.engine)
 
 @router.get("/lines/{line_id}", tags=["lines"])
 def get_line(line_id: int):
@@ -25,39 +24,53 @@ def get_line(line_id: int):
     * 'age': The age of the character.
     """
 
-    line = db.lines.get(line_id)
-    if line:
-        json = {}
-        mov_id = None
-        char1 = None
-        char2 = None
-        convo_id = None
-        json["line_id"] = line.id
-        json["line_text"] = line.line_text
-        mov_id = line.movie_id
-        char1 = line.c_id
-        convo_id = line.conv_id
-        movie = db.movies.get(mov_id)
-        json["movie_title"] = movie.title
-                
-        conversation = db.conversations.get(convo_id)
-        if conversation.c1_id == char1:
-            char2 = conversation.c2_id
-        elif conversation.c2_id == char1:
-            char2 = conversation.c1_id
+    line = sqlalchemy.select(db.lines.c.line_id, db.lines.c.line_text, db.lines.c.movie_id, db.lines.c.character_id, db.lines.c.conversation_id).where(db.lines.c.line_id == line_id)
 
-        lst = []
-        character1 = db.characters.get(char1)
-        character2 = db.characters.get(char2)
-        char1_json = {"character_id": character1.id, "character name": character1.name, "gender": character1.gender, "age": character1.age}
-        char2_json = {"character_id": character2.id, "character name": character2.name, "gender": character2.gender, "age": character2.age}
-        lst.append(char1_json)
-        lst.append(char2_json)
-        json["characters involved"] = lst
-    
-        return json
-    
-    raise HTTPException(status_code=404, detail="line not found.")
+    with db.engine.connect() as conn:
+        line1 = conn.execute(line).fetchone()
+        if line1:
+            movie = sqlalchemy.select(db.movies.c.title).where(line1.movie_id == db.movies.c.movie_id)
+            movie_title = conn.execute(movie).fetchone()
+            title_name = movie_title.title
+            speaker = sqlalchemy.select(db.chars.c.name, db.chars.c.gender, db.chars.c.age).where(line1.character_id == db.chars.c.character_id)
+            speaker1 = conn.execute(speaker).fetchone()
+            speaker_name = speaker1.name
+            json = {
+                "line_id": line1.line_id,
+                "line_text": line1.line_text,
+                "movie_title": title_name
+            }
+            lst = []
+            speaker_dict = {
+                "character_id": line1.character_id,
+                "character name": speaker_name,
+                "gender": speaker1.gender,
+                "age": speaker1.age
+            }
+
+            conversation = sqlalchemy.select(db.convos.c.character1_id, db.convos.c.character2_id).where(line1.conversation_id == db.convos.c.conversation_id)
+            conversation1 = conn.execute(conversation).fetchone()
+            if conversation1.character1_id == line1.character_id:
+                other_char_id = conversation1.character2_id
+            elif conversation1.character2_id == line1.character_id:
+                other_char_id = conversation1.character1_id
+
+            other_character = sqlalchemy.select(db.chars.c.character_id, db.chars.c.name, db.chars.c.gender, db.chars.c.age).where(db.chars.c.character_id == other_char_id)
+            other_char1 = conn.execute(other_character).fetchone()
+            other_char_dict = {
+                "character_id": other_char1.character_id,
+                "character name": other_char1.name,
+                "gender": other_char1.gender,
+                "age": other_char1.age
+            }
+            
+            lst.append(speaker_dict)
+            lst.append(other_char_dict)
+            json["characters involved"] = lst
+            return json
+
+        raise HTTPException(status_code=404, detail="line not found.")
+
 
 class char_lines_sort_options(str, Enum):
     line_text = "line_text"
