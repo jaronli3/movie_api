@@ -62,27 +62,6 @@ def get_movie(movie_id: int):
         raise HTTPException(status_code=404, detail="movie not found.")
 
 
-
-
-    # movie = db.movies.get(movie_id)
-    # if movie:
-    #     top_chars = [
-    #         {"character_id": c.id, "character": c.name, "num_lines": c.num_lines}
-    #         for c in db.characters.values()
-    #         if c.movie_id == movie_id
-    #     ]
-    #     top_chars.sort(key=lambda c: c["num_lines"], reverse=True)
-
-    #     result = {
-    #         "movie_id": movie_id,
-    #         "title": movie.title,
-    #         "top_characters": top_chars[0:5],
-    #     }
-    #     return result
-
-    # raise HTTPException(status_code=404, detail="movie not found.")
-
-
 class movie_sort_options(str, Enum):
     movie_title = "movie_title"
     year = "year"

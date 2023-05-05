@@ -140,13 +140,11 @@ def get_char_lines(char_id: int, limit: int = Query(50, ge=1, le=250), offset: i
         raise HTTPException(status_code=404, detail="character not found.")
         
 class line_sort_options(str, Enum):
-    line_text = "line_text"
     movie = "movie"
-    character = "character"
     line_id = "line_id"
 
 @router.get("/lines/", tags=["lines"])
-def get_lines(line_name: str, limit: int = Query(50, ge=1, le=250), offset: int = Query(0, ge=0), sort: line_sort_options = line_sort_options.line_text):
+def get_lines(line_name: str, limit: int = Query(50, ge=1, le=250), offset: int = Query(0, ge=0), sort: line_sort_options = line_sort_options.line_id):
         """
     This endpoint returns a list of lines. For each line it returns:
     * `line_id`: the internal id of the line. 
@@ -161,7 +159,6 @@ def get_lines(line_name: str, limit: int = Query(50, ge=1, le=250), offset: int 
     You can also sort the results by using the `sort` query parameter:
     * `line_text` - Sort by line text alphabetically.
     * `movie` - Sort by movie alphabetically.
-    * `character` - Sort by character alphabetically.
     * `line_id` - Sort by line_id in ascending order.
 
     The `limit` and `offset` query
@@ -170,38 +167,46 @@ def get_lines(line_name: str, limit: int = Query(50, ge=1, le=250), offset: int 
     number of results to skip before returning results.
 
         """
+
+        if sort is line_sort_options.movie:
+            order_by = db.movies.c.title
+        elif sort is line_sort_options.line_id:
+            order_by = db.lines.c.line_id
+        else:
+            assert False
     
-        json = []
-        for line in db.lines:
-            new_line = db.lines.get(line)
-            if line_name.lower() in new_line.line_text.lower():
-                dictionary = {}
-                dictionary["line_id"] = new_line.id
-                dictionary["line_text"] = new_line.line_text
-                movie = db.movies.get(new_line.movie_id)
-                dictionary["movie"] = movie.title
-                char = db.characters.get(new_line.c_id)
-                dictionary["character"] = char.name
-                convo = new_line.conv_id
-                conversation = db.conversations.get(convo)
-                other_char = None
-                if conversation.c1_id == char.id:
-                    other_char = conversation.c2_id
-                    other_char1 = db.characters.get(other_char)
-                    dictionary["speaking to"] = other_char1.name
-                elif conversation.c2_id == char.id:
-                    other_char = conversation.c1_id
-                    other_char1 = db.characters.get(other_char)
-                    dictionary["speaking to"] = other_char1.name
-                json.append(dictionary)
+        stmt = (
+            sqlalchemy.select(db.lines.c.line_id, db.lines.c.line_text, db.lines.c.movie_id, db.lines.c.character_id, db.lines.c.conversation_id).select_from(db.lines.join(db.movies, db.movies.c.movie_id == db.lines.c.movie_id))
+            .limit(limit)
+            .offset(offset)
+            .order_by(order_by, db.lines.c.line_id)
+        )
+        if line_name != "":
+            stmt = stmt.where(db.lines.c.line_text.ilike(f"%{line_name}%"))
 
-        if sort.lower() == "line_text":
-            return sorted(json, key=operator.itemgetter('line_text'))[offset:limit + offset]
-        elif sort.lower() == "movie":
-            return sorted(json, key=operator.itemgetter('movie'))[offset:limit + offset]
-        elif sort.lower() == "character":
-            return sorted(json, key=operator.itemgetter('character'))[offset:limit + offset]
-        elif sort.lower() == "line_id":
-            return sorted(json, key=operator.itemgetter('line_id'))[offset:limit + offset]
-
-        return json[offset:limit + offset]
+        with db.engine.connect() as conn:
+            result = conn.execute(stmt)
+            lst = []
+            for row in result:
+                movie = sqlalchemy.select(db.movies.c.title).where(db.movies.c.movie_id == row.movie_id)
+                movie1 = conn.execute(movie).fetchone()
+                movie_title = movie1.title
+                character = sqlalchemy.select(db.chars.c.name).where(db.chars.c.character_id == row.character_id)
+                character1 = conn.execute(character).fetchone()
+                char_name = character1.name
+                dictionary = {"line_id": row.line_id, "line_text": row.line_text, "movie": movie_title, "character": char_name}
+                conversation = sqlalchemy.select(db.convos.c.character1_id, db.convos.c.character2_id).where(row.conversation_id == db.convos.c.conversation_id)
+                conversation1 = conn.execute(conversation).fetchone()
+                if conversation1.character1_id == row.character_id:
+                    other_char = conversation1.character2_id
+                    speaking_to = sqlalchemy.select(db.chars.c.name).where(db.chars.c.character_id == other_char)
+                    speaking_to1 = conn.execute(speaking_to).fetchone()
+                    dictionary["speaking to"] = speaking_to1.name
+                elif conversation1.character2_id == row.character_id:
+                    other_char = conversation1.character1_id
+                    speaking_to = sqlalchemy.select(db.chars.c.name).where(db.chars.c.character_id == other_char)
+                    speaking_to1 = conn.execute(speaking_to).fetchone()
+                    dictionary["speaking to"] = speaking_to1.name
+                lst.append(dictionary)
+            return lst
+      
