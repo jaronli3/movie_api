@@ -75,6 +75,7 @@ def get_line(line_id: int):
 class char_lines_sort_options(str, Enum):
     line_text = "line_text"
 
+
 @router.get("/lines_spoken_by_character/", tags=["lines"])
 def get_char_lines(char_id: int, limit: int = Query(50, ge=1, le=250), offset: int = Query(0, ge=0)):
     """
